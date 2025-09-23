@@ -30,3 +30,7 @@ The script is a command-line tool. You must provide a file path and a conversion
 
 ```bash
 python braille_converter.py [path_to_your_text_file] to_braille
+```
+## Docker Container Usage
+
+Coming soon!
