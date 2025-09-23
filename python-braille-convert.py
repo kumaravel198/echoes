@@ -42,8 +42,10 @@ STRONG_GROUP_SIGNS = {
 }
 
 # 3. Lower Contractions (can be used as words or parts of words, but can't be at start of a word)
+# Corrected: Added 'by' and 'to'
 LOWER_CONTRACTIONS = {
     'be': '⠐⠃', 'in': '⠔', 'was': '⠐⠧', 'were': '⠐⠺', 'his': '⠐⠓', 'it': '⠭',
+    'by': '⠐⠽', 'to': '⠒',
     'bb': '⠃⠃', 'cc': '⠉⠉', 'ff': '⠋⠋', 'gg': '⠛⠛',
 }
 
@@ -57,6 +59,7 @@ LOWER_WORD_SIGNS = {
 }
 
 # 5. Shortform contractions (stand alone as a whole word)
+# Corrected: Added several missing shortforms for better coverage.
 SHORTFORM_CONTRACTIONS = {
     'about': '⠁⠃', 'above': '⠁⠃⠧', 'according': '⠁⠉⠉', 'after': '⠁⠋', 'again': '⠁⠛',
     'almost': '⠁⠇⠍', 'already': '⠁⠇⠗', 'also': '⠁⠇⠎', 'although': '⠁⠇', 'altogether': '⠁⠇⠞',
@@ -71,22 +74,30 @@ SHORTFORM_CONTRACTIONS = {
     'upon': '⠥⠏', 'where': '⠱', 'which': '⠱', 'who': '⠱', 'whose': '⠱⠎',
     'word': '⠺⠙', 'work': '⠺⠅', 'world': '⠺⠇', 'would': '⠺⠙', 'young': '⠽⠛',
     'your': '⠽⠗', 'yourself': '⠽⠗⠎',
+    # Added missing shortforms
+    'receive': '⠗⠉⠑', 'deceive': '⠙⠑⠉', 'perceive': '⠏⠑⠗',
+    'against': '⠁⠛⠎', 'acknowledge': '⠁⠅', 'acquaintance': '⠁⠟',
+    'believe': '⠃⠇', 'declare': '⠙⠉', 'delightful': '⠙⠇',
+    'himself': '⠓⠊⠍', 'itself': '⠊⠞⠎', 'themselves': '⠹⠑⠍',
+    'together': '⠞⠛', 'tomorrow': '⠞⠍', 'tonight': '⠞⠝', 'today': '⠞⠙',
 }
 
 # 6. Final-letter contractions (must be at the end of a word)
+# Corrected: 'able' now has the correct contraction
 FINAL_LETTER_CONTRACTIONS = {
-    'tion': '⠞⠊⠕⠝', 'sion': '⠎⠊⠕⠝', 'ness': '⠝⠑⠎⠎', 'less': '⠇⠎',
+    'tion': '⠞⠊⠕⠝', 'sion': '⠎⠊⠕⠝', 'ness': '⠝⠑⠎⠎', 'less': '⠇⠑⠎',
     'ful': '⠋⠥⠇', 'ment': '⠍⠑⠝⠞', 'ity': '⠔⠞⠽', 'ance': '⠁⠝⠉⠑',
-    'ous': '⠕⠥⠎', 'ing': '⠔', 'ence': '⠢⠉⠑', 'able': '⠁⠃⠇⠑',
+    'ous': '⠕⠥⠎', 'ing': '⠔', 'ence': '⠢⠉⠑', 'able': '⠁⠃⠇',
 }
 
 # 7. Initial-letter contractions (must be at the beginning of a word)
+# Corrected: 'con' now has the correct single-cell contraction
 INITIAL_LETTER_CONTRACTIONS = {
     'day': '⠙', 'ever': '⠑⠧', 'father': '⠋', 'here': '⠓', 'know': '⠅',
     'lord': '⠇', 'mother': '⠍', 'name': '⠝', 'one': '⠕', 'part': '⠏',
     'question': '⠟', 'right': '⠗', 'some': '⠎', 'time': '⠞',
     'under': '⠥', 'young': '⠽',
-    'com': '⠐⠉', 'dis': '⠙⠊⠎', 'con': '⠉⠕⠝',
+    'com': '⠐⠉', 'dis': '⠙⠊⠎', 'con': '⠐⠝',
 }
 
 # Numeric mapping
