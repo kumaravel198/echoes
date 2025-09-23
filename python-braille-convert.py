@@ -88,6 +88,8 @@ FINAL_LETTER_CONTRACTIONS = {
     'tion': '⠞⠊⠕⠝', 'sion': '⠎⠊⠕⠝', 'ness': '⠝⠑⠎⠎', 'less': '⠇⠑⠎',
     'ful': '⠋⠥⠇', 'ment': '⠍⠑⠝⠞', 'ity': '⠔⠞⠽', 'ance': '⠁⠝⠉⠑',
     'ous': '⠕⠥⠎', 'ing': '⠔', 'ence': '⠢⠉⠑', 'able': '⠁⠃⠇',
+    # Added other common final contractions that were missing
+    'ed': '⠢', 'er': '⠻', 'en': '⠫', 'ow': '⠪', 'ble': '⠃⠇⠑',
 }
 
 # 7. Initial-letter contractions (must be at the beginning of a word)
@@ -116,43 +118,85 @@ def text_to_braille(text_input):
     tokens = TOKEN_REGEX.findall(text_input)
     braille_output = []
 
-    # Combine all contractions into a single list and sort by the length of the English text
-    # in descending order for greedy matching.
-    all_contractions = {}
-    all_contractions.update(FINAL_LETTER_CONTRACTIONS)
-    all_contractions.update(SHORTFORM_CONTRACTIONS)
-    all_contractions.update(STRONG_WORD_SIGNS)
-    all_contractions.update(LOWER_WORD_SIGNS)
-    all_contractions.update(STRONG_GROUP_SIGNS)
-    all_contractions.update(LOWER_CONTRACTIONS)
-    all_contractions.update(INITIAL_LETTER_CONTRACTIONS)
+    # Combine all "whole word" contractions into a single dictionary for easier lookup.
+    # This ensures that shortforms and other word signs are checked first.
+    WHOLE_WORD_SIGNS = {}
+    WHOLE_WORD_SIGNS.update(SHORTFORM_CONTRACTIONS)
+    WHOLE_WORD_SIGNS.update(LOWER_WORD_SIGNS)
+    WHOLE_WORD_SIGNS.update(STRONG_WORD_SIGNS)
+    # Also add contractions from other lists that can be used as whole words
+    WHOLE_WORD_SIGNS.update({v: k for k, v in STRONG_GROUP_SIGNS.items()})
+    WHOLE_WORD_SIGNS.update({v: k for k, v in LOWER_CONTRACTIONS.items()})
+    WHOLE_WORD_SIGNS.update({v: k for k, v in FINAL_LETTER_CONTRACTIONS.items()})
+    
+    # Sort these for precedence (longer matches first)
+    WHOLE_WORD_SIGNS_SORTED = sorted(WHOLE_WORD_SIGNS.items(), key=lambda x: len(x[0]), reverse=True)
 
-    # Sort by length of the English part, descending
-    sorted_contractions = sorted(all_contractions.items(), key=lambda x: len(x[0]), reverse=True)
-
-    def convert_word(word):
+    def convert_word_part(word):
+        """
+        Converts a word by applying the most specific contractions first, respecting placement rules.
+        """
         braille_word_output = []
         i = 0
         while i < len(word):
             found_match = False
             remaining = word[i:]
 
-            # Check for contractions
-            for contraction, braille in sorted_contractions:
+            # 1. Check for Initial-letter contractions (at the beginning)
+            if i == 0:
+                for contraction, braille in INITIAL_LETTER_CONTRACTIONS.items():
+                    if remaining.startswith(contraction):
+                        braille_word_output.append(braille)
+                        i += len(contraction)
+                        found_match = True
+                        break
+                if found_match:
+                    continue
+
+            # 2. Check for Strong group signs (anywhere)
+            for contraction, braille in STRONG_GROUP_SIGNS.items():
                 if remaining.startswith(contraction):
-                    # Special handling for whole word contractions
-                    if (contraction in STRONG_WORD_SIGNS or contraction in LOWER_WORD_SIGNS) and len(remaining) > len(contraction):
-                        continue  # Skip if it's a part of a larger word
-                    
                     braille_word_output.append(braille)
                     i += len(contraction)
                     found_match = True
                     break
-            
-            if not found_match:
-                # Fallback to single letter
-                braille_word_output.append(BRAILLE_LETTERS.get(word[i], word[i]))
-                i += 1
+            if found_match:
+                continue
+
+            # 3. Check for Final-letter contractions (at the end)
+            # Prioritize longer final contractions like 'tion' before 'ing'
+            final_sorted = sorted(FINAL_LETTER_CONTRACTIONS.items(), key=lambda x: len(x[0]), reverse=True)
+            for contraction, braille in final_sorted:
+                if remaining.endswith(contraction):
+                    if len(remaining) == len(contraction):
+                        braille_word_output.append(braille)
+                        i += len(remaining)
+                        found_match = True
+                        break
+                    else:
+                        prefix = remaining[:-len(contraction)]
+                        braille_word_output.append(convert_word_part(prefix))
+                        braille_word_output.append(braille)
+                        i += len(remaining)
+                        found_match = True
+                        break
+            if found_match:
+                continue
+
+            # 4. Check for Lower contractions (anywhere except the beginning)
+            if i > 0:
+                for contraction, braille in sorted(LOWER_CONTRACTIONS.items(), key=lambda x: len(x[0]), reverse=True):
+                    if remaining.startswith(contraction):
+                        braille_word_output.append(braille)
+                        i += len(contraction)
+                        found_match = True
+                        break
+            if found_match:
+                continue
+                
+            # 5. Fallback to single letter
+            braille_word_output.append(BRAILLE_LETTERS.get(word[i], word[i]))
+            i += 1
             
         return "".join(braille_word_output)
 
@@ -175,15 +219,16 @@ def text_to_braille(text_input):
             elif is_initial_caps:
                 braille_word.append(BRAILLE_INDICATORS['CAPS'])
             
-            # Check for whole-word or shortform contractions
-            if lower_token in STRONG_WORD_SIGNS:
-                braille_word.append(STRONG_WORD_SIGNS[lower_token])
-            elif lower_token in LOWER_WORD_SIGNS:
-                braille_word.append(LOWER_WORD_SIGNS[lower_token])
-            elif lower_token in SHORTFORM_CONTRACTIONS:
-                braille_word.append(SHORTFORM_CONTRACTIONS[lower_token])
-            else:
-                braille_word.append(convert_word(lower_token))
+            # Check for any whole-word contraction first
+            matched_whole_word = False
+            for english_word, braille_sign in WHOLE_WORD_SIGNS_SORTED:
+                if lower_token == english_word:
+                    braille_word.append(braille_sign)
+                    matched_whole_word = True
+                    break
+
+            if not matched_whole_word:
+                braille_word.append(convert_word_part(lower_token))
 
             braille_output.append("".join(braille_word))
 
@@ -233,7 +278,7 @@ def braille_to_text(braille_input):
                     found_num = True
                     break
             
-            # Exit numeric mode at a non-numeric braille character or space
+            # Exit numeric mode at a space or non-numeric character
             if not found_num or braille_input[i] == ' ':
                 in_numeric_mode = False
             continue
@@ -259,7 +304,8 @@ def braille_to_text(braille_input):
                     else:
                         english_output.append(english_part)
 
-                    if braille_input[i] == ' ':
+                    # A space typically ends the whole-word capitalization mode
+                    if braille_input[i:].startswith(' '):
                         capitalize_whole_word = False
                 
                 i += len(pattern)
@@ -271,7 +317,6 @@ def braille_to_text(braille_input):
             i += 1
 
     return "".join(english_output).strip()
-
 
 def main():
     """
