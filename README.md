@@ -86,3 +86,76 @@ The output will be printed directly to your terminal.
 + **`python-braille-convert.py`**: The Python script that performs the text-to-Braille and Braille-to-text conversion.
 
 + **`README.md`**: This file, providing instructions and project information.
+
+#### Example output from docker for reference
+
+podman run --rm --volume "$PWD":/app:z braille-converter sample-text.txt to_braill
+
+--- Original Content from 'sample-text.txt' ---
+Ontario's Human Rights Code, the first in Canada, was enacted in 1962. 
+
+The Code prohibits actions that discriminate against people based on a protected ground  in a protected social area.
+
+Protected grounds are:
+Age
+Ancestry, colour, race
+Citizenship
+Ethnic origin
+Place of origin
+Creed
+Disability
+Family status
+Marital status (including single status)
+Gender identity, gender expression
+Receipt of public assistance (in housing only)
+Record of offences (in employment only)
+Sex (including pregnancy and breastfeeding)
+Sexual orientation.
+
+Protected social areas are:
+Accommodation (housing)
+Contracts
+Employment
+Goods, services and facilities
+Membership in unions, trade or professional associations.
+
+For more information:
+Guide to your rights and responsibilities under the Human Rights Code
+Guidelines on developing human rights policies and procedures
+Human Rights Code cards
+
+------------------------------
+--- Converted to Braille ---
+⠠⠕⠝⠞⠜⠊⠕⠄⠎ ⠠⠓⠥⠍⠁⠝ ⠠⠗⠊⠎ ⠠⠉⠕⠙⠑⠂ ⠮ ⠋⠗ ⠔ ⠠⠉⠁⠝⠁⠙⠁⠂ ⠐⠧ ⠢⠁⠉⠞⠫ ⠔ ⠼⠁⠊⠋⠃⠲ 
+
+⠠⠮ ⠠⠉⠕⠙⠑ ⠏⠗⠕⠓⠊⠃⠊⠞⠎ ⠁⠉⠞⠊⠕⠝⠎ ⠞ ⠙⠊⠎⠉⠗⠊⠍⠔⠁⠞⠑ ⠁⠛⠌ ⠏ ⠃⠁⠎⠫ ⠕⠝ ⠁ ⠏⠗⠕⠞⠑⠉⠞⠫ ⠛⠗⠳⠝⠙  ⠔ ⠁ ⠏⠗⠕⠞⠑⠉⠞⠫ ⠎⠕⠉⠊⠁⠇ ⠜⠁⠲
+
+⠠⠏⠗⠕⠞⠑⠉⠞⠫ ⠛⠗⠳⠝⠙⠎ ⠜⠒
+⠠⠁⠛⠑
+⠠⠁⠝⠉⠑⠌⠗⠽⠂ ⠉⠕⠇⠳⠗⠂ ⠗⠁⠉⠑
+⠠⠉⠊⠞⠊⠵⠢⠩⠊⠏
+⠠⠑⠹⠝⠊⠉ ⠕⠗⠊⠛⠔
+⠠⠏⠇⠁⠉⠑ ⠷ ⠕⠗⠊⠛⠔
+⠠⠉⠗⠑⠫
+⠠⠙⠊⠎⠁⠃⠊⠇⠔⠞⠽
+⠠⠋⠁⠍⠊⠇⠽ ⠌⠁⠞⠥
+⠠⠍⠜⠊⠞⠁⠇ ⠌⠁⠞⠥ ⠣⠔⠉⠇⠥⠙⠔ ⠎⠔⠇⠑ ⠌⠁⠞⠥⠜
+⠠⠛⠢⠙⠻ ⠊⠙⠢⠞⠔⠞⠽⠂ ⠛⠢⠙⠻ ⠑⠭⠏⠗⠑⠎⠎⠊⠕⠝
+⠠⠗⠑⠉⠑⠊⠏⠞ ⠷ ⠏⠥⠃⠇⠊⠉ ⠁⠎⠎⠊⠌⠁⠝⠉⠑ ⠣⠔ ⠓⠕⠥⠎⠔ ⠕⠝⠇⠽⠜
+⠠⠗⠑⠉⠕⠗⠙ ⠷ ⠕⠋⠋⠢⠉⠑⠎ ⠣⠔ ⠑⠍⠏⠇⠕⠽⠍⠢ ⠕⠝⠇⠽⠜
+⠠⠎⠑⠭ ⠣⠔⠉⠇⠥⠙⠔ ⠏⠗⠑⠛⠝⠁⠝⠉⠽ ⠯ ⠃⠗⠐⠑⠌⠋⠑⠫⠔⠜
+⠠⠎⠑⠭⠥⠁⠇ ⠕⠗⠊⠢⠞⠁⠞⠊⠕⠝⠲
+
+⠠⠏⠗⠕⠞⠑⠉⠞⠫ ⠎⠕⠉⠊⠁⠇ ⠜⠁⠎ ⠜⠒
+⠠⠁⠉⠉⠕⠍⠍⠕⠙⠁⠞⠊⠕⠝ ⠣⠓⠕⠥⠎⠔⠜
+⠠⠉⠕⠝⠞⠗⠁⠉⠞⠎
+⠠⠑⠍⠏⠇⠕⠽⠍⠢
+⠠⠛⠙⠎⠂ ⠎⠻⠧⠊⠉⠑⠎ ⠯ ⠋⠁⠉⠊⠇⠊⠞⠊⠑⠎
+⠠⠍⠑⠍⠐⠃⠗⠩⠊⠏ ⠔ ⠥⠝⠊⠕⠝⠎⠂ ⠞⠗⠁⠙⠑ ⠕⠗ ⠏⠗⠕⠋⠑⠎⠎⠊⠕⠝⠁⠇ ⠁⠎⠎⠕⠉⠊⠁⠞⠊⠕⠝⠎⠲
+
+⠠⠫ ⠍ ⠔⠋⠕⠗⠍⠁⠞⠊⠕⠝⠒
+⠠⠛⠥⠊⠙⠑ ⠞⠕ ⠽⠗ ⠗⠊⠎ ⠯ ⠗⠑⠎⠏⠕⠝⠎⠊⠃⠊⠇⠊⠞⠊⠑⠎ ⠥⠝ ⠮ ⠠⠓⠥⠍⠁⠝ ⠠⠗⠊⠎ ⠠⠉⠕⠙⠑
+⠠⠛⠥⠊⠙⠑⠇⠔⠑⠎ ⠕⠝ ⠙⠑⠧⠑⠇⠕⠏⠔ ⠓⠥⠍⠁⠝ ⠗⠊⠎ ⠏⠕⠇⠊⠉⠊⠑⠎ ⠯ ⠏⠗⠕⠉⠫⠥⠗⠑⠎
+⠠⠓⠥⠍⠁⠝ ⠠⠗⠊⠎ ⠠⠉⠕⠙⠑ ⠉⠜⠙⠎
+
+
