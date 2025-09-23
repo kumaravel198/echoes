@@ -162,3 +162,16 @@ Human Rights Code cards
 ⠠⠛⠥⠊⠙⠑⠇⠔⠑⠎ ⠕⠝ ⠙⠑⠧⠑⠇⠕⠏⠔ ⠓⠥⠍⠁⠝ ⠗⠎ ⠏⠕⠇⠊⠉⠊⠑⠎ ⠯ ⠏⠗⠕⠉⠑⠙⠥⠗⠑⠎
 ⠠⠓⠥⠍⠁⠝ ⠠⠗⠎ ⠠⠉⠕⠙⠑ ⠉⠁⠗⠙⠎
 
+Legal documents produced in Canada after September 8, 2022, that still use "Regina" instead of "Rex" would not be invalid, but they are technically incorrect and could be subject to administrative delays.
+Here's a breakdown of the effects:
+
+Automatic Deemed Amendment: The legal system in Canada is designed to prevent a disruption of government and legal proceedings upon the death of the monarch. The principle of the "Crown as a corporation sole" means that the institution of the Crown continues uninterrupted. In practice, this means that references to "The Queen" or "Regina" in statutes and legal documents are automatically interpreted as "The King" or "Rex." Some courts have issued blanket orders to this effect, meaning that a document does not need to be refiled or amended just because it uses the old terminology.
+
+Administrative Grace Period: Many courts, law firms, and government bodies recognized that this transition would not be instantaneous. They have implemented a grace period during which documents using "Regina" would still be accepted. However, this is not a permanent solution, and eventually, documents with the outdated term may be rejected or returned for correction.
+Best Practice and Professionalism: While using "Regina" may not invalidate a document, it is no longer the proper legal terminology. Legal professionals are expected to use the correct and current terms. Continued use of "Regina" could be seen as a sign of inattention to detail or a lack of understanding of the current legal landscape, which could be an issue in a professional context.
+
+Specific Examples:
+Case Citations: While older cases will always be cited as "Regina v. [defendant]," any new criminal proceedings initiated after September 8, 2022, should be styled as "Rex v. [defendant]."
+Court Names: Provinces like Alberta and New Brunswick have officially renamed their courts from the "Court of Queen's Bench" to the "Court of King's Bench." Any new filings should reflect this change.
+Lawyer Titles: The designation "Queen's Counsel" (QC) has automatically become "King's Counsel" (KC). While existing letters patent do not need to be reissued, lawyers are expected to update their business cards, letterheads, and other professional materials.
+In summary, while there's a strong legal basis for the validity of documents still using "Regina," the best and proper course of action for any legal document created after the date of the Queen's death is to use the correct term, "Rex."
