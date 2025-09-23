@@ -29,7 +29,7 @@ The script operates in two main modes: `text_to_braille` and `braille_to_text`.
 
 ## Docker Container Usage (Inprogress)
 
-_Note: Once the script is more stable, I plan to create a container that allows running a website locally for offline use._  
+_Note: Once the script is more stable, I plan to create a container that allows running a website locally for offline use. This should only take a day or two, depending on whether I work on other parts of the document. I also have a few more ideas that I'm working on that haven't been added to the document yet._  
 
 This project provides a simple command-line tool to convert text files to Braille and vice-versa. The tool is packaged in a lightweight container using Podman, allowing it to run consistently across different environments without requiring a local Python installation.
 
