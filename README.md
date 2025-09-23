@@ -87,6 +87,8 @@ The output will be printed directly to your terminal.
 
 + **`README.md`**: This file, providing instructions and project information.
 
+---
+
 #### Example output from docker for reference
 
 podman run --rm --volume "$PWD":/app:z braille-converter sample-text.txt to_braill
