@@ -28,25 +28,35 @@ BRAILLE_INDICATORS = {
     'NUM': '⠼',
 }
 
-# Organize contractions by their rules of use for correct application
-# 1. Whole-word contractions (Alphabetical Word Signs & Strong Word Signs)
-WHOLE_WORD_CONTRACTIONS = {
-    'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋',
-    'g': '⠛', 'h': '⠓', 'i': '⠊', 'j': '⠚', 'k': '⠅', 'l': '⠇',
-    'm': '⠍', 'n': '⠝', 'o': '⠕', 'p': '⠏', 'q': '⠟', 'r': '⠗',
-    's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭',
-    'y': '⠽', 'z': '⠵',
+# 1. Strong Word Signs (must stand alone as a whole word)
+STRONG_WORD_SIGNS = {
     'and': '⠯', 'for': '⠫', 'of': '⠷', 'the': '⠮', 'with': '⠾',
-    'but': '⠃', 'can': '⠉', 'do': '⠙', 'every': '⠑', 'from': '⠋', 'go': '⠛',
-    'have': '⠓', 'just': '⠚', 'knowledge': '⠅', 'like': '⠇', 'more': '⠍',
-    'not': '⠝', 'people': '⠏', 'quite': '⠟', 'rather': '⠗', 'so': '⠎',
-    'that': '⠞', 'us': '⠥', 'very': '⠧', 'will': '⠺', 'you': '⠽',
-    'it': '⠭', 'was': '⠐⠧', 'his': '⠐⠓', 'were': '⠐⠺',
     'child': '⠡', 'shall': '⠩', 'this': '⠹', 'which': '⠱', 'out': '⠳',
     'still': '⠌',
 }
 
-# 2. Shortform contractions (stand alone as a whole word)
+# 2. Strong Group Signs (can be anywhere in a word)
+STRONG_GROUP_SIGNS = {
+    'ch': '⠡', 'sh': '⠩', 'th': '⠹', 'wh': '⠱',
+    'ou': '⠳', 'ow': '⠪',
+}
+
+# 3. Lower Contractions (can be used as words or parts of words, but can't be at start of a word)
+LOWER_CONTRACTIONS = {
+    'be': '⠐⠃', 'in': '⠔', 'was': '⠐⠧', 'were': '⠐⠺', 'his': '⠐⠓', 'it': '⠭',
+    'bb': '⠃⠃', 'cc': '⠉⠉', 'ff': '⠋⠋', 'gg': '⠛⠛',
+}
+
+# 4. Lower Word Signs (must stand alone as a whole word)
+LOWER_WORD_SIGNS = {
+    'but': '⠃', 'can': '⠉', 'do': '⠙', 'every': '⠑', 'from': '⠋', 'go': '⠛',
+    'have': '⠓', 'just': '⠚', 'knowledge': '⠅', 'like': '⠇', 'more': '⠍',
+    'not': '⠝', 'people': '⠏', 'quite': '⠟', 'rather': '⠗', 'so': '⠎',
+    'that': '⠞', 'us': '⠥', 'very': '⠧', 'will': '⠺', 'you': '⠽',
+    'as': '⠁⠎', 'are': '⠜',
+}
+
+# 5. Shortform contractions (stand alone as a whole word)
 SHORTFORM_CONTRACTIONS = {
     'about': '⠁⠃', 'above': '⠁⠃⠧', 'according': '⠁⠉⠉', 'after': '⠁⠋', 'again': '⠁⠛',
     'almost': '⠁⠇⠍', 'already': '⠁⠇⠗', 'also': '⠁⠇⠎', 'although': '⠁⠇', 'altogether': '⠁⠇⠞',
@@ -63,34 +73,20 @@ SHORTFORM_CONTRACTIONS = {
     'your': '⠽⠗', 'yourself': '⠽⠗⠎',
 }
 
-# 3. Strong Group Signs (can be anywhere in a word)
-STRONG_GROUP_SIGNS = {
-    'ch': '⠡', 'sh': '⠩', 'th': '⠹', 'wh': '⠱',
-    'ou': '⠳', 'ow': '⠪', 'st': '⠌',
-    'gh': '⠛⠓', 'ar': '⠜', 'ed': '⠫', 'er': '⠻',
-    'ing': '⠔', 'en': '⠢',
-}
-
-# 4. Lower contractions (can be used as words or parts of words)
-LOWER_CONTRACTIONS = {
-    'be': '⠐⠃', 'in': '⠔', 'was': '⠐⠧', 'are': '⠜', 'were': '⠐⠺',
-    'bb': '⠃⠃', 'cc': '⠉⠉', 'ff': '⠋⠋', 'gg': '⠛⠛',
-    'com': '⠐⠉', 'dis': '⠙⠊⠎', 'ea': '⠐⠑', 'con': '⠉⠕⠝',
-}
-
-# 5. Final-letter contractions (must be at the end of a word)
+# 6. Final-letter contractions (must be at the end of a word)
 FINAL_LETTER_CONTRACTIONS = {
     'tion': '⠞⠊⠕⠝', 'sion': '⠎⠊⠕⠝', 'ness': '⠝⠑⠎⠎', 'less': '⠇⠎',
-    'ful': '⠋⠥⠇', 'ment': '⠍⠢', 'ity': '⠔⠞⠽', 'ance': '⠁⠝⠉⠑',
-    'ous': '⠕⠥⠎',
+    'ful': '⠋⠥⠇', 'ment': '⠍⠑⠝⠞', 'ity': '⠔⠞⠽', 'ance': '⠁⠝⠉⠑',
+    'ous': '⠕⠥⠎', 'ing': '⠔', 'ence': '⠢⠉⠑', 'able': '⠁⠃⠇⠑',
 }
 
-# 6. Initial-letter contractions (must be at the beginning of a word)
+# 7. Initial-letter contractions (must be at the beginning of a word)
 INITIAL_LETTER_CONTRACTIONS = {
-    'day': '⠙', 'ever': '⠑⠧', 'father': '⠋⠁⠞', 'here': '⠓⠑', 'know': '⠅⠝',
-    'lord': '⠇⠕⠗', 'mother': '⠍⠕⠹', 'name': '⠝⠁⠍⠑', 'one': '⠕⠝', 'part': '⠏⠁⠗',
-    'question': '⠟⠥⠑', 'right': '⠗⠊', 'some': '⠎⠕', 'time': '⠞⠊⠍',
-    'under': '⠥⠝', 'young': '⠽⠕⠥',
+    'day': '⠙', 'ever': '⠑⠧', 'father': '⠋', 'here': '⠓', 'know': '⠅',
+    'lord': '⠇', 'mother': '⠍', 'name': '⠝', 'one': '⠕', 'part': '⠏',
+    'question': '⠟', 'right': '⠗', 'some': '⠎', 'time': '⠞',
+    'under': '⠥', 'young': '⠽',
+    'com': '⠐⠉', 'dis': '⠙⠊⠎', 'con': '⠉⠕⠝',
 }
 
 # Numeric mapping
@@ -109,12 +105,13 @@ def text_to_braille(text_input):
     tokens = TOKEN_REGEX.findall(text_input)
     braille_output = []
 
-    # Combine all contraction dictionaries into a single list of (text, braille) pairs
-    # and sort by the length of the English text in descending order for greedy matching.
+    # Combine all contractions into a single list and sort by the length of the English text
+    # in descending order for greedy matching.
     all_contractions = {}
     all_contractions.update(FINAL_LETTER_CONTRACTIONS)
     all_contractions.update(SHORTFORM_CONTRACTIONS)
-    all_contractions.update(WHOLE_WORD_CONTRACTIONS)
+    all_contractions.update(STRONG_WORD_SIGNS)
+    all_contractions.update(LOWER_WORD_SIGNS)
     all_contractions.update(STRONG_GROUP_SIGNS)
     all_contractions.update(LOWER_CONTRACTIONS)
     all_contractions.update(INITIAL_LETTER_CONTRACTIONS)
@@ -133,7 +130,7 @@ def text_to_braille(text_input):
             for contraction, braille in sorted_contractions:
                 if remaining.startswith(contraction):
                     # Special handling for whole word contractions
-                    if contraction in WHOLE_WORD_CONTRACTIONS and len(remaining) > len(contraction):
+                    if (contraction in STRONG_WORD_SIGNS or contraction in LOWER_WORD_SIGNS) and len(remaining) > len(contraction):
                         continue  # Skip if it's a part of a larger word
                     
                     braille_word_output.append(braille)
@@ -168,8 +165,10 @@ def text_to_braille(text_input):
                 braille_word.append(BRAILLE_INDICATORS['CAPS'])
             
             # Check for whole-word or shortform contractions
-            if lower_token in WHOLE_WORD_CONTRACTIONS:
-                braille_word.append(WHOLE_WORD_CONTRACTIONS[lower_token])
+            if lower_token in STRONG_WORD_SIGNS:
+                braille_word.append(STRONG_WORD_SIGNS[lower_token])
+            elif lower_token in LOWER_WORD_SIGNS:
+                braille_word.append(LOWER_WORD_SIGNS[lower_token])
             elif lower_token in SHORTFORM_CONTRACTIONS:
                 braille_word.append(SHORTFORM_CONTRACTIONS[lower_token])
             else:
@@ -193,7 +192,8 @@ def braille_to_text(braille_input):
     reverse_map = {}
     reverse_map.update({v: k for k, v in FINAL_LETTER_CONTRACTIONS.items()})
     reverse_map.update({v: k for k, v in SHORTFORM_CONTRACTIONS.items()})
-    reverse_map.update({v: k for k, v in WHOLE_WORD_CONTRACTIONS.items()})
+    reverse_map.update({v: k for k, v in STRONG_WORD_SIGNS.items()})
+    reverse_map.update({v: k for k, v in LOWER_WORD_SIGNS.items()})
     reverse_map.update({v: k for k, v in STRONG_GROUP_SIGNS.items()})
     reverse_map.update({v: k for k, v in LOWER_CONTRACTIONS.items()})
     reverse_map.update({v: k for k, v in INITIAL_LETTER_CONTRACTIONS.items()})
