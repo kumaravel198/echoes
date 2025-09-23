@@ -89,7 +89,7 @@ The output will be printed directly to your terminal.
 
 ---
 
-#### Example output from docker for reference
+### Example output from podman for reference
 
 podman run --rm --volume "$PWD":/app:z braille-converter sample-text.txt to_braill
 
