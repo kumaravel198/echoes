@@ -35,49 +35,62 @@ WHOLE_WORD_CONTRACTIONS = {
     'g': '⠛', 'h': '⠓', 'i': '⠊', 'j': '⠚', 'k': '⠅', 'l': '⠇',
     'm': '⠍', 'n': '⠝', 'o': '⠕', 'p': '⠏', 'q': '⠟', 'r': '⠗',
     's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭',
-    'y': '⠽', 'z': '⠵', 'and': '⠯', 'for': '⠫', 'of': '⠷', 'the': '⠮', 'with': '⠾',
-    'be': '⠐⠃', 'but': '⠃', 'can': '⠉', 'do': '⠙', 'every': '⠑',
-    'from': '⠋', 'go': '⠛', 'have': '⠓', 'it': '⠊', 'just': '⠚',
-    'knowledge': '⠅', 'like': '⠇', 'more': '⠍', 'not': '⠝',
-    'people': '⠏', 'quite': '⠟', 'rather': '⠗', 'so': '⠎', 'that': '⠞',
-    'us': '⠥', 'very': '⠧', 'will': '⠺', 'you': '⠽',
-    'in': '⠔', 'was': '⠐⠧', 'his': '⠐⠓', 'were': '⠐⠺',
+    'y': '⠽', 'z': '⠵',
+    'and': '⠯', 'for': '⠫', 'of': '⠷', 'the': '⠮', 'with': '⠾',
+    'but': '⠃', 'can': '⠉', 'do': '⠙', 'every': '⠑', 'from': '⠋', 'go': '⠛',
+    'have': '⠓', 'just': '⠚', 'knowledge': '⠅', 'like': '⠇', 'more': '⠍',
+    'not': '⠝', 'people': '⠏', 'quite': '⠟', 'rather': '⠗', 'so': '⠎',
+    'that': '⠞', 'us': '⠥', 'very': '⠧', 'will': '⠺', 'you': '⠽',
+    'it': '⠭', 'was': '⠐⠧', 'his': '⠐⠓', 'were': '⠐⠺',
+    'child': '⠡', 'shall': '⠩', 'this': '⠹', 'which': '⠱', 'out': '⠳',
+    'still': '⠌',
 }
 
 # 2. Shortform contractions (stand alone as a whole word)
 SHORTFORM_CONTRACTIONS = {
     'about': '⠁⠃', 'above': '⠁⠃⠧', 'according': '⠁⠉⠉', 'after': '⠁⠋', 'again': '⠁⠛',
     'almost': '⠁⠇⠍', 'already': '⠁⠇⠗', 'also': '⠁⠇⠎', 'although': '⠁⠇', 'altogether': '⠁⠇⠞',
-    'always': '⠁⠇⠺', 'behind': '⠃⠓', 'below': '⠃⠇', 'beneath': '⠃⠝', 'beside': '⠃⠎',
-    'braille': '⠃⠗⠇', 'character': '⠉⠓⠁', 'children': '⠉⠓⠣', 'could': '⠉⠙', 'first': '⠋⠗',
-    'great': '⠛⠗', 'had': '⠓⠙', 'immediate': '⠔⠍', 'little': '⠇', 'made': '⠍⠙', 'many': '⠍⠁',
-    'must': '⠍⠎', 'necessary': '⠝⠑⠉', 'neither': '⠝⠗', 'one': '⠕⠝', 'part': '⠏⠁',
-    'quick': '⠟⠅', 'right': '⠗⠎', 'said': '⠎⠙', 'some': '⠎⠍',
-    'spirit': '⠎⠏', 'such': '⠎⠥', 'their': '⠹⠗', 'these': '⠹⠎', 'this': '⠹',
-    'those': '⠹⠎', 'through': '⠹⠗', 'time': '⠞⠊', 'under': '⠥⠝', 'upon': '⠥⠏',
-    'where': '⠱', 'which': '⠱', 'who': '⠱', 'whose': '⠱⠎', 'word': '⠺⠙', 'work': '⠺⠅',
-    'world': '⠺⠇', 'would': '⠺⠙', 'young': '⠽⠛', 'your': '⠽⠗',
+    'always': '⠁⠇⠺', 'because': '⠃⠑⠉', 'before': '⠃⠑⠋', 'behind': '⠃⠓', 'below': '⠃⠇',
+    'beneath': '⠃⠝', 'beside': '⠃⠎', 'between': '⠃⠞', 'beyond': '⠃⠽',
+    'braille': '⠃⠗⠇', 'character': '⠉⠓⠁', 'children': '⠉⠓⠣', 'could': '⠉⠙',
+    'first': '⠋⠗', 'friend': '⠋⠗', 'good': '⠛⠙', 'great': '⠛⠗', 'had': '⠓⠙',
+    'immediate': '⠔⠍', 'little': '⠇', 'made': '⠍⠙', 'many': '⠍⠁', 'must': '⠍⠎',
+    'necessary': '⠝⠑⠉', 'neither': '⠝⠑⠊', 'one': '⠕⠝', 'part': '⠏⠁', 'quick': '⠟⠅',
+    'right': '⠗⠣', 'said': '⠎⠙', 'some': '⠎⠍', 'spirit': '⠎⠏', 'such': '⠎⠥',
+    'their': '⠹⠗', 'these': '⠹⠎', 'through': '⠹⠗', 'time': '⠞⠊', 'under': '⠥⠝',
+    'upon': '⠥⠏', 'where': '⠱', 'which': '⠱', 'who': '⠱', 'whose': '⠱⠎',
+    'word': '⠺⠙', 'work': '⠺⠅', 'world': '⠺⠇', 'would': '⠺⠙', 'young': '⠽⠛',
+    'your': '⠽⠗', 'yourself': '⠽⠗⠎',
 }
 
 # 3. Strong Group Signs (can be anywhere in a word)
 STRONG_GROUP_SIGNS = {
-    'ch': '⠡', 'gh': '⠛⠓', 'sh': '⠩', 'th': '⠹', 'wh': '⠱',
-    'ou': '⠳', 'ow': '⠪', 'st': '⠌', 'en': '⠢', 'ff': '⠖',
+    'ch': '⠡', 'sh': '⠩', 'th': '⠹', 'wh': '⠱',
+    'ou': '⠳', 'ow': '⠪', 'st': '⠌',
+    'gh': '⠛⠓', 'ar': '⠜', 'ed': '⠫', 'er': '⠻',
+    'ing': '⠔', 'en': '⠢',
 }
 
-# 4. Final-letter contractions (must be at the end of a word)
+# 4. Lower contractions (can be used as words or parts of words)
+LOWER_CONTRACTIONS = {
+    'be': '⠐⠃', 'in': '⠔', 'was': '⠐⠧', 'are': '⠜', 'were': '⠐⠺',
+    'bb': '⠃⠃', 'cc': '⠉⠉', 'ff': '⠋⠋', 'gg': '⠛⠛',
+    'com': '⠐⠉', 'dis': '⠙⠊⠎', 'ea': '⠐⠑', 'con': '⠉⠕⠝',
+}
+
+# 5. Final-letter contractions (must be at the end of a word)
 FINAL_LETTER_CONTRACTIONS = {
-    'ing': '⠔', 'ar': '⠜', 'ed': '⠫', 'er': '⠻',
-    'tion': '⠞⠊⠕⠝', 'sion': '⠎⠊⠕⠝', 'ful': '⠋⠥⠇', 'ness': '⠝⠑⠎⠎',
-    'less': '⠇⠎', 'ence': '⠂⠝⠉', 'ment': '⠍⠢',
+    'tion': '⠞⠊⠕⠝', 'sion': '⠎⠊⠕⠝', 'ness': '⠝⠑⠎⠎', 'less': '⠇⠎',
+    'ful': '⠋⠥⠇', 'ment': '⠍⠢', 'ity': '⠔⠞⠽', 'ance': '⠁⠝⠉⠑',
+    'ous': '⠕⠥⠎',
 }
 
-# 5. Initial-letter contractions (must be at the beginning of a word)
+# 6. Initial-letter contractions (must be at the beginning of a word)
 INITIAL_LETTER_CONTRACTIONS = {
-    'child': '⠉⠓⠙', 'day': '⠙', 'ever': '⠑⠧', 'here': '⠓⠑',
-    'name': '⠝⠁⠍⠑', 'one': '⠕⠝⠑', 'shall': '⠩', 'that': '⠹',
-    'these': '⠹⠎⠑', 'those': '⠹⠎⠑', 'through': '⠹⠗', 'which': '⠱',
-    'with': '⠾', 'would': '⠺⠙', 'you': '⠽',
+    'day': '⠙', 'ever': '⠑⠧', 'father': '⠋⠁⠞', 'here': '⠓⠑', 'know': '⠅⠝',
+    'lord': '⠇⠕⠗', 'mother': '⠍⠕⠹', 'name': '⠝⠁⠍⠑', 'one': '⠕⠝', 'part': '⠏⠁⠗',
+    'question': '⠟⠥⠑', 'right': '⠗⠊', 'some': '⠎⠕', 'time': '⠞⠊⠍',
+    'under': '⠥⠝', 'young': '⠽⠕⠥',
 }
 
 # Numeric mapping
@@ -98,21 +111,16 @@ def text_to_braille(text_input):
 
     # Combine all contraction dictionaries into a single list of (text, braille) pairs
     # and sort by the length of the English text in descending order for greedy matching.
-    all_contractions = []
-    all_contractions.extend(WHOLE_WORD_CONTRACTIONS.items())
-    all_contractions.extend(SHORTFORM_CONTRACTIONS.items())
-    all_contractions.extend(FINAL_LETTER_CONTRACTIONS.items())
-    all_contractions.extend(STRONG_GROUP_SIGNS.items())
-    all_contractions.extend(INITIAL_LETTER_CONTRACTIONS.items())
+    all_contractions = {}
+    all_contractions.update(FINAL_LETTER_CONTRACTIONS)
+    all_contractions.update(SHORTFORM_CONTRACTIONS)
+    all_contractions.update(WHOLE_WORD_CONTRACTIONS)
+    all_contractions.update(STRONG_GROUP_SIGNS)
+    all_contractions.update(LOWER_CONTRACTIONS)
+    all_contractions.update(INITIAL_LETTER_CONTRACTIONS)
 
     # Sort by length of the English part, descending
-    all_contractions.sort(key=lambda x: len(x[0]), reverse=True)
-    
-    # Create a set for quick lookup of word-ending contractions
-    final_contractions = set(FINAL_LETTER_CONTRACTIONS.keys())
-    
-    # Create a set for quick lookup of strong group contractions
-    strong_group_signs = set(STRONG_GROUP_SIGNS.keys())
+    sorted_contractions = sorted(all_contractions.items(), key=lambda x: len(x[0]), reverse=True)
 
     def convert_word(word):
         braille_word_output = []
@@ -121,32 +129,22 @@ def text_to_braille(text_input):
             found_match = False
             remaining = word[i:]
 
-            # Prioritize longer contractions first.
-            
-            # 1. Final contractions check
-            if any(remaining.endswith(fc) for fc in final_contractions) and i == len(word) - len(remaining):
-                braille_word_output.append(convert_word(word[:i]))
-                for fc, b in FINAL_LETTER_CONTRACTIONS.items():
-                    if remaining.endswith(fc):
-                        braille_word_output.append(b)
-                        break
-                i = len(word)
-                found_match = True
-                break
-            
-            # 2. Strong group contractions check (anywhere in word)
-            for group, braille in sorted(STRONG_GROUP_SIGNS.items(), key=lambda x: len(x[0]), reverse=True):
-                if remaining.startswith(group):
+            # Check for contractions
+            for contraction, braille in sorted_contractions:
+                if remaining.startswith(contraction):
+                    # Special handling for whole word contractions
+                    if contraction in WHOLE_WORD_CONTRACTIONS and len(remaining) > len(contraction):
+                        continue  # Skip if it's a part of a larger word
+                    
                     braille_word_output.append(braille)
-                    i += len(group)
+                    i += len(contraction)
                     found_match = True
                     break
-            if found_match:
-                continue
-
-            # Fallback to single letter
-            braille_word_output.append(BRAILLE_LETTERS.get(word[i], word[i]))
-            i += 1
+            
+            if not found_match:
+                # Fallback to single letter
+                braille_word_output.append(BRAILLE_LETTERS.get(word[i], word[i]))
+                i += 1
             
         return "".join(braille_word_output)
 
@@ -168,8 +166,8 @@ def text_to_braille(text_input):
                 braille_word.append(BRAILLE_INDICATORS['WHOLE_WORD_CAPS'])
             elif is_initial_caps:
                 braille_word.append(BRAILLE_INDICATORS['CAPS'])
-
-            # Rule 1: Check for whole-word and shortform contractions first
+            
+            # Check for whole-word or shortform contractions
             if lower_token in WHOLE_WORD_CONTRACTIONS:
                 braille_word.append(WHOLE_WORD_CONTRACTIONS[lower_token])
             elif lower_token in SHORTFORM_CONTRACTIONS:
@@ -180,7 +178,6 @@ def text_to_braille(text_input):
             braille_output.append("".join(braille_word))
 
     return "".join(braille_output)
-
 
 def braille_to_text(braille_input):
     """
@@ -193,55 +190,33 @@ def braille_to_text(braille_input):
     in_numeric_mode = False
 
     # A single, correct, and comprehensive Braille-to-English map that prioritizes longer patterns
-    reverse_map = {
-        '⠠⠠': ('_WHOLE_WORD_CAPS', 2), '⠠': ('_CAPS', 1), '⠼': ('_NUM', 1),
-        **{v: (k, 1) for k, v in WHOLE_WORD_CONTRACTIONS.items()},
-        **{v: (k, 1) for k, v in SHORTFORM_CONTRACTIONS.items()},
-        **{v: (k, 1) for k, v in STRONG_GROUP_SIGNS.items()},
-        **{v: (k, 1) for k, v in FINAL_LETTER_CONTRACTIONS.items()},
-        **{v: (k, 1) for k, v in BRAILLE_LETTERS.items()},
-        **{v: (k, 1) for k, v in PUNCTUATION_SIGNS.items()},
-    }
-    
-    # Remove duplicate values (e.g., '⠁' for 'a' and 'and') by prioritizing longer keys.
-    # This is a critical step to ensure correct reverse mapping.
-    reverse_map_unique = {}
-    for braille_char, (english_text, length) in reverse_map.items():
-        # Prioritize longer Braille patterns (e.g., '⠐⠃' over '⠃')
-        if braille_char not in reverse_map_unique or len(english_text) > len(reverse_map_unique[braille_char][0]):
-            reverse_map_unique[braille_char] = (english_text, length)
-            
-    # Add number mappings to the unique reverse map
-    for digit, braille_char in NUMBER_MAP.items():
-        reverse_map_unique[braille_char] = (digit, 1)
+    reverse_map = {}
+    reverse_map.update({v: k for k, v in FINAL_LETTER_CONTRACTIONS.items()})
+    reverse_map.update({v: k for k, v in SHORTFORM_CONTRACTIONS.items()})
+    reverse_map.update({v: k for k, v in WHOLE_WORD_CONTRACTIONS.items()})
+    reverse_map.update({v: k for k, v in STRONG_GROUP_SIGNS.items()})
+    reverse_map.update({v: k for k, v in LOWER_CONTRACTIONS.items()})
+    reverse_map.update({v: k for k, v in INITIAL_LETTER_CONTRACTIONS.items()})
+    reverse_map.update({v: k for k, v in PUNCTUATION_SIGNS.items()})
+    reverse_map.update({v: k for k, v in BRAILLE_LETTERS.items()})
+    reverse_map.update({v: k for k, v in NUMBER_MAP.items()})
 
-    sorted_patterns = sorted(reverse_map_unique.keys(), key=len, reverse=True)
+    # Add indicators separately
+    reverse_map[BRAILLE_INDICATORS['WHOLE_WORD_CAPS']] = '_WHOLE_WORD_CAPS'
+    reverse_map[BRAILLE_INDICATORS['CAPS']] = '_CAPS'
+    reverse_map[BRAILLE_INDICATORS['NUM']] = '_NUM'
+
+    # Sort by the length of the braille pattern in descending order
+    sorted_patterns = sorted(reverse_map.keys(), key=len, reverse=True)
 
     while i < len(braille_input):
-        current_braille_part = braille_input[i:]
         found_match = False
         
-        # Check for indicators first
-        if current_braille_part.startswith(BRAILLE_INDICATORS['WHOLE_WORD_CAPS']):
-            capitalize_whole_word = True
-            i += len(BRAILLE_INDICATORS['WHOLE_WORD_CAPS'])
-            found_match = True
-        elif current_braille_part.startswith(BRAILLE_INDICATORS['CAPS']):
-            capitalize_next = True
-            i += len(BRAILLE_INDICATORS['CAPS'])
-            found_match = True
-        elif current_braille_part.startswith(BRAILLE_INDICATORS['NUM']):
-            in_numeric_mode = True
-            i += len(BRAILLE_INDICATORS['NUM'])
-            found_match = True
-        
-        if found_match: continue
-
-        # Handle numeric patterns
+        # Check for numeric mode and apply it
         if in_numeric_mode:
             found_num = False
             for digit, braille_char in NUMBER_MAP.items():
-                if current_braille_part.startswith(braille_char):
+                if braille_input[i:].startswith(braille_char):
                     english_output.append(digit)
                     i += len(braille_char)
                     found_num = True
@@ -254,27 +229,34 @@ def braille_to_text(braille_input):
 
         # Match against sorted patterns (longer first)
         for pattern in sorted_patterns:
-            if current_braille_part.startswith(pattern):
-                english_part, _ = reverse_map_unique[pattern]
+            if braille_input[i:].startswith(pattern):
+                english_part = reverse_map[pattern]
                 
-                if english_part == ' ':
-                    capitalize_whole_word = False
-                
-                # Apply capitalization
-                if capitalize_next:
-                    english_output.append(english_part.capitalize())
-                    capitalize_next = False
-                elif capitalize_whole_word:
-                    english_output.append(english_part.upper())
+                if english_part == '_WHOLE_WORD_CAPS':
+                    capitalize_whole_word = True
+                elif english_part == '_CAPS':
+                    capitalize_next = True
+                elif english_part == '_NUM':
+                    in_numeric_mode = True
                 else:
-                    english_output.append(english_part)
+                    # Apply capitalization
+                    if capitalize_next:
+                        english_output.append(english_part.capitalize())
+                        capitalize_next = False
+                    elif capitalize_whole_word:
+                        english_output.append(english_part.upper())
+                    else:
+                        english_output.append(english_part)
+
+                    if braille_input[i] == ' ':
+                        capitalize_whole_word = False
                 
                 i += len(pattern)
                 found_match = True
                 break
         
         if not found_match:
-            english_output.append(current_braille_part[0])
+            english_output.append(braille_input[i])
             i += 1
 
     return "".join(english_output).strip()
