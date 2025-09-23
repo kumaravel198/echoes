@@ -162,6 +162,21 @@ Human Rights Code cards
 ⠠⠛⠥⠊⠙⠑⠇⠔⠑⠎ ⠕⠝ ⠙⠑⠧⠑⠇⠕⠏⠔ ⠓⠥⠍⠁⠝ ⠗⠎ ⠏⠕⠇⠊⠉⠊⠑⠎ ⠯ ⠏⠗⠕⠉⠑⠙⠥⠗⠑⠎
 ⠠⠓⠥⠍⠁⠝ ⠠⠗⠎ ⠠⠉⠕⠙⠑ ⠉⠁⠗⠙⠎
 
+The time it takes to learn Grade 2 braille varies significantly from person to person, as it depends on factors like age, motivation, and the amount of time dedicated to practice.
+
+Here are some general estimates and insights from various sources:
+
+For adults: Learning contracted (Grade 2) braille can take over a year to learn fluently. Some courses, like those offered by CNIB, are designed to be completed within 12 months.
+
+For children: Children can often learn braille in the same amount of time it takes a sighted child to learn to read, assuming consistent practice. One source suggests that learning Grade 1 braille can take 6-8 months, while Grade 2 can take about 18 months.
+
+
+Practice is key: The key to fluency is consistent, daily practice. Many experienced braille readers emphasize that simply knowing the contractions isn't enough; real-world practice with books, bank statements, and other materials is what truly builds fluency.
+
+Learning Grade 1 first: It's often recommended to learn uncontracted (Grade 1) braille first, as Grade 2 is a more complex system with contractions that serve as a type of shorthand.
+
+In summary, while there is no single "average" number, a motivated adult or child who practices regularly can expect to spend at least a year, and potentially more, to become fluent in Grade 2 braille.
+
 Legal documents produced in Canada after September 8, 2022, that still use "Regina" instead of "Rex" would not be invalid, but they are technically incorrect and could be subject to administrative delays.
 Here's a breakdown of the effects:
 
