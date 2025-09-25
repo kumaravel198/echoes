@@ -1,6 +1,6 @@
 # app.py
 
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory # ADDED send_from_directory
 from flask_cors import CORS
 import sys
 import os
@@ -19,10 +19,6 @@ from enum import Enum, auto
 class BrailleGrade(Enum):
     GRADE_1 = auto()
     GRADE_2 = auto()
-
-# ... (Insert all constants/maps: BRAILLE_LETTERS, PUNCTUATION_SIGNS, etc. from python-braille-convert.py here) ...
-# Due to length, I will only include the core functions and necessary imports
-# All map definitions (BRAILLE_LETTERS, PUNCTUATION_SIGNS, etc.) MUST be copied here.
 
 # --- Required imports and maps from python-braille-convert.py (partial list for illustration) ---
 BRAILLE_LETTERS = {
@@ -97,20 +93,47 @@ STRONG_WORD_SIGNS = {
     'child': '⠡', 'shall': '⠩', 'this': '⠹', 'which': '⠱', 'out': '⠳',
     'still': '⠌',
 }
-# ... (all other maps from the Python script) ...
+# NOTE: The full content of python-braille-convert.py would be needed here for the app to run.
+# Assuming convert_word_part_g2, convert_word_part_g1, text_to_braille, and braille_to_text are defined.
+
+# Placeholder functions to allow the code to execute (MUST be replaced by full logic)
+def text_to_braille(text_input, grade):
+    # This is where the actual logic from python-braille-convert.py belongs
+    return "Braille G2 conversion of: " + text_input if grade == BrailleGrade.GRADE_2 else "Braille G1 conversion of: " + text_input
+
+def braille_to_text(braille_input):
+    # This is where the actual logic from python-braille-convert.py belongs
+    return "Text conversion of: " + braille_input
+
 TOKEN_REGEX = re.compile(r'([A-Za-z]+|\d+|[^\w\s]|\s+)')
 WHOLE_WORD_SIGNS = {}
-# ... (Update WHOLE_WORD_SIGNS and WHOLE_WORD_SIGNS_SORTED) ...
-# ... (Include convert_word_part_g2 and convert_word_part_g1) ...
-
-# --- Conversion Functions (must be copied directly from python-braille-convert.py) ---
-# text_to_braille(text_input, grade)
-# braille_to_text(braille_input)
-
 # --- END: Content from python-braille-convert.py ---
 
-app = Flask(__name__)
+# Initialize Flask app, specifying the static folder
+# The Dockerfile copies braille_converter.html to /app/static/index.html
+app = Flask(__name__, static_folder='static') 
 CORS(app) # Enable CORS for cross-origin requests from the HTML file
+
+# --- NEW ROOT ROUTE TO SERVE THE HTML FRONTEND ---
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve_static(path):
+    """
+    Serves the index.html file for the root path and static files (like CSS/JS) 
+    for other paths found in the 'static' folder.
+    """
+    # If the path is empty (root URL), or if the path is a file that exists in the static folder
+    if path == "" or os.path.exists(os.path.join(app.static_folder, path)):
+        if path == "" or not os.path.isfile(os.path.join(app.static_folder, path)):
+            # If path is "" or a directory, serve index.html (the main frontend file)
+            return send_from_directory(app.static_folder, 'index.html')
+        else:
+            # If the path is an existing file (e.g., an asset), serve it directly
+            return send_from_directory(app.static_folder, path)
+
+    # For any other path, return 404
+    return "Not Found", 404
+
 
 @app.route('/convert', methods=['POST'])
 def convert():
