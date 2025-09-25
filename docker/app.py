@@ -22,8 +22,16 @@ BRAILLE_LETTERS = {
 }
 PUNCTUATION_SIGNS = {
     '.': '⠲', ',': '⠂', '!': '⠖', '?': '⠦', ':': '⠒',
-    ';': '⠆', '-': '⠤', '"': '⠶', "'": '⠄', ' ': ' ',
+    ';': '⠆', '-': '⠤', "'": '⠄', ' ': ' ',
 }
+
+# Multi-cell signs for explicit handling
+OPEN_DOUBLE_QUOTE = '⠦' # UEB Open Double Quote
+CLOSE_DOUBLE_QUOTE = '⠴' # UEB Close Double Quote
+OPEN_PARENTHESIS = '⠐⠣'
+CLOSE_PARENTHESIS = '⠐⠜'
+FORWARD_SLASH = '⠸⠌'
+
 BRAILLE_INDICATORS = {
     'CAPS': '⠠', 
     'NUM': '⠼',
@@ -33,16 +41,31 @@ NUMBER_MAP = {
     '6': '⠋', '7': '⠛', '8': '⠓', '9': '⠊', '0': '⠚',
 }
 
-# --- Reverse Maps for Braille-to-Text Conversion (THE FIX) ---
+# --- Reverse Maps for Braille-to-Text Conversion ---
 REVERSE_LETTER_MAP = {v: k for k, v in BRAILLE_LETTERS.items()}
-REVERSE_PUNCTUATION_MAP = {v: k for k, v in PUNCTUATION_SIGNS.items()}
+
+# Updated Reverse Punctuation Map
+REVERSE_PUNCTUATION_MAP = {
+    **{v: k for k, v in PUNCTUATION_SIGNS.items()},
+    OPEN_DOUBLE_QUOTE: '"', 
+    CLOSE_DOUBLE_QUOTE: '"',
+    '⠶': '"', # For compatibility with generic double quote (if produced)
+    '⠦': '?', # '?'
+    '⠖': '!', # '!'
+    '⠒': ':', # ':'
+    '⠆': ';', # ';'
+    '⠲': '.', # '.'
+    '⠂': ',', # ','
+    '⠤': '-', # '-'
+    '⠄': "'", # "'"
+}
 REVERSE_NUMBER_MAP = {v: k for k, v in NUMBER_MAP.items()}
 # ------------------------------------------------------------------
 
 TOKEN_REGEX = re.compile(r'([A-Za-z]+|\d+|[^\w\s]|\s+)')
 
 
-# --- Core Conversion Functions (Copied from python-braille-convert.py) ---
+# --- Core Conversion Functions ---
 
 def text_to_braille(text_input, grade):
     """
@@ -53,6 +76,8 @@ def text_to_braille(text_input, grade):
 
     tokens = TOKEN_REGEX.findall(text_input)
     braille_output = []
+    
+    is_quote_open = False 
 
     for token in tokens:
         if token.isspace():
@@ -80,7 +105,23 @@ def text_to_braille(text_input, grade):
 
         if re.match(r'^[^\w\s]+$', token):
             for char in token:
-                braille_output.append(PUNCTUATION_SIGNS.get(char, char))
+                # Handle specific multi-cell or distinct quotes
+                if char == '(':
+                    braille_output.append(OPEN_PARENTHESIS)
+                elif char == ')':
+                    braille_output.append(CLOSE_PARENTHESIS)
+                elif char == '/':
+                    braille_output.append(FORWARD_SLASH)
+                elif char == '"':
+                    if not is_quote_open:
+                        braille_output.append(OPEN_DOUBLE_QUOTE)
+                        is_quote_open = True
+                    else:
+                        braille_output.append(CLOSE_DOUBLE_QUOTE)
+                        is_quote_open = False
+                else:
+                    # Fallback to single-cell punctuation map
+                    braille_output.append(PUNCTUATION_SIGNS.get(char, char))
             continue
 
         braille_output.append(token)
@@ -90,28 +131,43 @@ def text_to_braille(text_input, grade):
 def braille_to_text(braille_input):
     """
     Converts Braille (Grade 1 only) back to text.
-    Handles capitals, numbers, letters, and punctuation.
+    **FIXED: Numeric mode handling for period (⠲) and comma (⠂) added.**
     """
     text_output = []
     i = 0
     is_num_mode = False
-    is_caps_mode = False # Added for consistency with text_to_braille indicator check
+    is_caps_mode = False 
     
-    # Concatenate all reverse maps for single-cell lookups (Simplified lookup)
-    all_reverse_maps = {
-        **REVERSE_LETTER_MAP, 
-        **REVERSE_PUNCTUATION_MAP, 
-        **REVERSE_NUMBER_MAP
+    multi_cell_braille = {
+        '⠐⠣': '(',   # Open Parenthesis
+        '⠐⠜': ')',   # Close Parenthesis
+        '⠸⠌': '/',   # Forward Slash
     }
     
     braille_chars = list(braille_input)
+    n = len(braille_chars)
 
-    while i < len(braille_chars):
+    while i < n:
+        # Check for multi-cell signs first (up to 2 cells)
+        found_multi_cell = False
+        for braille_sign, print_char in multi_cell_braille.items():
+            sign_len = len(braille_sign)
+            if i + sign_len <= n and "".join(braille_chars[i:i+sign_len]) == braille_sign:
+                text_output.append(print_char)
+                is_num_mode = False 
+                is_caps_mode = False
+                i += sign_len
+                found_multi_cell = True
+                break
+        
+        if found_multi_cell:
+            continue
+            
         char = braille_chars[i]
 
         if char == ' ':
             text_output.append(' ')
-            is_num_mode = False # Space breaks numeric mode
+            is_num_mode = False 
             is_caps_mode = False
             i += 1
             continue
@@ -119,11 +175,11 @@ def braille_to_text(braille_input):
         # Check for indicators
         if char == BRAILLE_INDICATORS['CAPS']: # Capital Indicator (⠠)
             i += 1
-            if i < len(braille_chars):
+            if i < n:
                 next_char = braille_chars[i]
-                # Look up the letter, capitalize it, and append
                 text_output.append(REVERSE_LETTER_MAP.get(next_char, next_char).upper())
-                is_num_mode = False # A capital letter is not a number
+                is_num_mode = False 
+                is_caps_mode = True 
                 i += 1
             else:
                 text_output.append('[CAP_IND]') 
@@ -131,23 +187,43 @@ def braille_to_text(braille_input):
 
         if char == BRAILLE_INDICATORS['NUM']: # Numeric Indicator (⠼)
             is_num_mode = True
-            is_caps_mode = False # Numbers override capitalization
+            is_caps_mode = False 
             i += 1
             continue
-
-        # Process characters based on mode
+        
+        # --- FIX: Numeric Mode Processing ---
         if is_num_mode:
-            # Look up in the reverse number map
-            text_output.append(REVERSE_NUMBER_MAP.get(char, char))
-            # If the character is not a number, numeric mode is broken by the end of the word/token in original script, 
-            # but for robustness, a space is the primary break. Keep going until a space or another indicator.
+            # 1. Check for digits first (a-j -> 1-0)
+            if char in REVERSE_NUMBER_MAP:
+                text_output.append(REVERSE_NUMBER_MAP[char])
+                # Numeric mode continues
+            # 2. Check for numeric-retaining punctuation (period, comma)
+            elif char == '⠲': # period
+                text_output.append('.')
+                # Numeric mode continues
+            elif char == '⠂': # comma
+                text_output.append(',')
+                # Numeric mode continues
+            else:
+                # Any other character terminates numeric mode.
+                is_num_mode = False
+                # Re-evaluate this character in non-numeric mode, so decrement i
+                i -= 1 
+                
+        # Non-numeric mode processing
         else:
-            # Check for letters/punctuation
-            if char in REVERSE_LETTER_MAP:
+            # Check for single-cell braille quotes (⠦ 'open', ⠴ 'close', ⠶ 'generic')
+            if char == OPEN_DOUBLE_QUOTE or char == CLOSE_DOUBLE_QUOTE or char == '⠶':
+                text_output.append('"')
+                is_caps_mode = False 
+            
+            # Check for letters/punctuation (single cell)
+            elif char in REVERSE_LETTER_MAP:
                 text_output.append(REVERSE_LETTER_MAP[char])
+                is_caps_mode = False
             elif char in REVERSE_PUNCTUATION_MAP:
                 text_output.append(REVERSE_PUNCTUATION_MAP[char])
-                is_caps_mode = False # Punctuation breaks capitalization
+                is_caps_mode = False
             else:
                 text_output.append(char) # Unhandled character
 
@@ -183,7 +259,7 @@ def convert():
     converted_text = ""
     try:
         if conversion_type == "to_braille_g1":
-            converted_text = text_to_braille(input_text, grade=BrailleGrade.GRADE_1)
+            converted_text = text_to_braille(input_text, grade=BrailleGrade.GRADE_1) 
         elif conversion_type == "to_text":
             converted_text = braille_to_text(input_text)
         else:
