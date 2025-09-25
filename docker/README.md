@@ -1,7 +1,7 @@
 
 # Docker Container Usage 
 
-Inprogress, does not work correctly. Braille to text fails spectulary. I have no idea text to braille is working. Can't read output.
+Inprogress, does not work correctly. Need to fix backend in container. Braille to text fails spectulary. I have no idea text to braille is working. Can't read output to proof read. I can only read my name some what.
 
 _Note: I'm creating an offline, containerized environment for a website that includes a braille transcription feature. I'm focusing exclusively on Braille Grade 1 to ensure a high level of accuracy and reliability. Implementing Braille Grade 2's complex contractions and rules accurately is far too challenging for a straightforward script, and I have low confidence in its output. Therefore, I'm leaving the Grade 2 code disabled in the web UI. For those needing Grade 2 support, several excellent, specialized Git projects and libraries are available that handle it much better._  
 
