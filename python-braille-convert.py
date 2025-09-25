@@ -16,16 +16,64 @@ BRAILLE_LETTERS = {
 
 # Punctuation and indicators
 PUNCTUATION_SIGNS = {
-    ' ': ' ', '.': '⠲', ',': '⠂', '!': '⠖', '?': '⠦',
-    ':': '⠒', ';': '⠐⠆', '-': '⠤',
-    '(': '⠣', ')': '⠜', '"': '⠶', "'": '⠄',
+    # Basic Punctuation
+    ' ': ' ', 
+    '.': '⠲', # Period/Dot
+    ',': '⠂', # Comma
+    '!': '⠖', # Exclamation point
+    '?': '⠦', # Question mark
+    ':': '⠒', # Colon
+    ';': '⠆', # Semicolon (Corrected from non-standard)
+    '-': '⠤', # Hyphen
+    
+    # Quotation Marks (Directional - Double/Primary)
+    '"': '⠦',  # Opening Double Quote (Corrected from non-directional)
+    '”': '⠴',  # Closing Double Quote (Added for directional closure)
+
+    # Apostrophe
+    "'": '⠄', # Apostrophe/Closing Single Quote
+
+    # Ellipsis (Multi-cell)
+    '...': '⠲⠲⠲',
+    
+    # Dashes/Slashes (Multi-cell)
+    '—': '⠠⠤',  # Em-dash/Long Dash (Added)
+    '/': '⠸⠌',  # Forward Slash (Added)
+
+    # Grouping Punctuation (Two-cell forms)
+    '(': '⠐⠣', # Opening Parenthesis (Corrected from one-cell non-standard)
+    ')': '⠐✜', # Closing Parenthesis (Corrected from one-cell non-standard)
+    '[': '⠨⠣', # Opening Square Bracket (Added)
+    ']': '⠨⠜', # Closing Square Bracket (Added)
 }
 
-# Key Braille indicators
+# Key Braille indicators - EXPANDED UEB INDICATORS
 BRAILLE_INDICATORS = {
-    'CAPS': '⠠',
-    'WHOLE_WORD_CAPS': '⠠⠠',
-    'NUM': '⠼',
+    # Capitalization Indicators
+    'CAPS': '⠠',                   # Capital Letter Indicator (Dot 6)
+    'CAPS_WORD': '⠠⠠',              # Capital Word Indicator (Dot 6, Dot 6)
+    'CAPS_PASSAGE': '⠠⠠⠠',         # Capital Passage Indicator (Dot 6, Dot 6, Dot 6)
+    'CAPS_TERMINATOR': '⠠⠄',        # Capital Passage Terminator (Dot 6, Dot 3)
+
+    # Grade 1 (Uncontracted) Indicators
+    'G1_SYM': '⠰',                   # Grade 1 Symbol Indicator (Dots 5-6)
+    'G1_WORD': '⠰⠰',                # Grade 1 Word Indicator (Dots 5-6, 5-6)
+    'G1_PASSAGE': '⠰⠰⠰',             # Grade 1 Passage Indicator (Dots 5-6, 5-6, 5-6)
+    'G1_TERMINATOR': '⠰⠄',          # Grade 1 Passage Terminator (Dots 5-6, 3)
+
+    # Typeform Prefixes (Used with extent roots like ⠁, ⠂, ⠇, ⠄ for word/symbol/passage/terminator)
+    'ITALIC_PREFIX': '⠨',            # Italic Typeform Prefix (Dots 4-6)
+    'BOLD_PREFIX': '⠸',              # Bold Typeform Prefix (Dots 4-5-6)
+    'UNDERLINE_PREFIX': '⠠⠨',       # Underline Typeform Prefix (Dots 6, 4-6)
+
+    # Numeric, Subscript, Superscript Indicators
+    'NUM': '⠼',                    # Numeric Indicator (Dots 3-4-5-6)
+    'SUBSCRIPT_DOWN': '⠢',          # Subscript/Level Change Down (Dots 2-6)
+    'SUPERSCRIPT_UP': '⠔',          # Superscript/Level Change Up (Dots 3-5)
+
+    # Transcriber's Note Indicators (multi-cell symbols)
+    'TRANS_NOTE_OPEN': '⠐⠨⠣',      # Transcriber's Note Open (Dots 5, 4-6, 1-2-6)
+    'TRANS_NOTE_CLOSE': '⠐⠨⠜',     # Transcriber's Note Close (Dots 5, 4-6, 3-4-5)
 }
 
 # 1. Strong Word Signs (must stand alone as a whole word)
@@ -41,12 +89,13 @@ STRONG_GROUP_SIGNS = {
     'ou': '⠳', 'ow': '⠪',
 }
 
-# 3. Lower Contractions (can be used as words or parts of words, but can't be at start of a word)
-# Corrected: Added 'by' and 'to'
+## 3. Lower Contractions (can be used as words or parts of words, but can't be at start of a word)
+# Corrected: Removed eliminated UEB contractions ('by', 'to') and added missing UEB Lower Groupsign ('ea').
 LOWER_CONTRACTIONS = {
     'be': '⠐⠃', 'in': '⠔', 'was': '⠐⠧', 'were': '⠐⠺', 'his': '⠐⠓', 'it': '⠭',
-    'by': '⠐⠽', 'to': '⠒',
+    'ea': '⠂',  # Added UEB Lower Groupsign for 'ea' (dots 2, same as comma)
     'bb': '⠃⠃', 'cc': '⠉⠉', 'ff': '⠋⠋', 'gg': '⠛⠛',
+    # Eliminated UEB contractions 'by' and 'to' and incorrect multi-cell entries have been removed.
 }
 
 # 4. Lower Word Signs (must stand alone as a whole word)
