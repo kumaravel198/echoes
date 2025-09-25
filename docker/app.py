@@ -93,15 +93,40 @@ STRONG_WORD_SIGNS = {
     'child': '⠡', 'shall': '⠩', 'this': '⠹', 'which': '⠱', 'out': '⠳',
     'still': '⠌',
 }
-# NOTE: The full content of python-braille-convert.py would be needed here for the app to run.
-# Assuming convert_word_part_g2, convert_word_part_g1, text_to_braille, and braille_to_text are defined.
 
-# Placeholder functions to allow the code to execute (MUST be replaced by full logic)
 def text_to_braille(text_input, grade):
-    # This is where the actual logic from python-braille-convert.py belongs
-    # The actual implementation of text_to_braille in python-braille-convert.py will still handle 
-    # the GRADE_2 enum, but the API will only request GRADE_1.
-    return "Braille G2 conversion of: " + text_input if grade == BrailleGrade.GRADE_2 else "Braille G1 conversion of: " + text_input
+    """
+    Converts a plain text string to Braille Grade 1.
+    Grade 2 logic is intentionally omitted for simplicity/reliability.
+    """
+    if grade != BrailleGrade.GRADE_1:
+        # Since the UI is configured for G1 only, this is an additional guard
+        return "Unsupported Braille Grade."
+
+    braille_output = []
+    
+    for char in text_input:
+        if 'a' <= char <= 'z':
+            # Lowercase letters are directly mapped
+            braille_output.append(BRAILLE_LETTERS.get(char, ''))
+        elif 'A' <= char <= 'Z':
+            # Capital letters require the Capital Letter Indicator (⠠)
+            lower_char = char.lower()
+            braille_code = BRAILLE_LETTERS.get(lower_char, '')
+            if braille_code:
+                braille_output.append('⠠' + braille_code)
+            else:
+                # Fallback for unexpected characters
+                braille_output.append(char)
+        elif char == ' ':
+            # Space character
+            braille_output.append(' ')
+        else:
+            # Punctuation and other symbols (Grade 1 does not contract, but includes punctuation)
+            # You should expand BRAILLE_PUNCTUATION in app.py if you want full support
+            braille_output.append(char) # Currently leaves unhandled symbols as is
+
+    return "".join(braille_output)
 
 def braille_to_text(braille_input):
     # This is where the actual logic from python-braille-convert.py belongs
@@ -109,7 +134,7 @@ def braille_to_text(braille_input):
 
 TOKEN_REGEX = re.compile(r'([A-Za-z]+|\d+|[^\w\s]|\s+)')
 WHOLE_WORD_SIGNS = {}
-# --- END: Content from python-braille-convert.py ---
+
 
 # Initialize Flask app, specifying the static folder
 # The Dockerfile copies braille_converter.html to /app/static/index.html
