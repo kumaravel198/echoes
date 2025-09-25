@@ -94,40 +94,97 @@ STRONG_WORD_SIGNS = {
     'still': '⠌',
 }
 
+# app.py
+
+from flask import Flask, request, jsonify, send_from_directory
+from flask_cors import CORS
+import sys
+import os
+import re
+from enum import Enum, auto
+
+# --- Enums and Mappings (Keep these the same) ---
+class BrailleGrade(Enum):
+    GRADE_1 = auto()
+    GRADE_2 = auto()
+
+# (Keep BRAILLE_LETTERS, PUNCTUATION_SIGNS, BRAILLE_INDICATORS, NUMBER_MAP)
+BRAILLE_LETTERS = {
+    'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋',
+    'g': '⠛', 'h': '⠓', 'i': '⠊', 'j': '⠚', 'k': '⠅', 'l': '⠇',
+    'm': '⠍', 'n': '⠝', 'o': '⠕', 'p': '⠏', 'q': '⠟', 'r': '⠗',
+    's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭',
+    'y': '⠽', 'z': '⠵',
+}
+PUNCTUATION_SIGNS = {
+    ' ': ' ', '.': '⠲', ',': '⠂', '!': '⠖', '?': '⠦', ':': '⠒',
+    ';': '⠆', '-': '⠤', '"': '⠶', '“': '⠦', '”': '⠴', "'": '⠄',
+    '(': '⠐⠣', ')': '⠐⠜', '[': '⠨⠣', ']': '⠨⠜', '$': '⠐⠎', '*': '⠐⠔',
+}
+BRAILLE_INDICATORS = {
+    'CAPS': '⠠',
+    'NUM': '⠼',
+}
+NUMBER_MAP = {
+    '1': '⠁', '2': '⠃', '3': '⠉', '4': '⠙', '5': '⠑',
+    '6': '⠋', '7': '⠛', '8': '⠓', '9': '⠊', '0': '⠚',
+}
+TOKEN_REGEX = re.compile(r'([A-Za-z]+|\d+|[^\w\s]|\s+)') # Keep the tokenizer
+
+# --- CORRECTED text_to_braille function ---
 def text_to_braille(text_input, grade):
     """
-    Converts a plain text string to Braille Grade 1.
-    Grade 2 logic is intentionally omitted for simplicity/reliability.
+    Converts a plain text string to Braille Grade 1 (Uncontracted).
+    This version correctly handles capitalization, numbers, and punctuation.
     """
     if grade != BrailleGrade.GRADE_1:
-        # Since the UI is configured for G1 only, this is an additional guard
         return "Unsupported Braille Grade."
 
+    tokens = TOKEN_REGEX.findall(text_input)
     braille_output = []
-    
-    for char in text_input:
-        if 'a' <= char <= 'z':
-            # Lowercase letters are directly mapped
-            braille_output.append(BRAILLE_LETTERS.get(char, ''))
-        elif 'A' <= char <= 'Z':
-            # Capital letters require the Capital Letter Indicator (⠠)
-            lower_char = char.lower()
-            braille_code = BRAILLE_LETTERS.get(lower_char, '')
-            if braille_code:
-                braille_output.append('⠠' + braille_code)
-            else:
-                # Fallback for unexpected characters
-                braille_output.append(char)
-        elif char == ' ':
-            # Space character
-            braille_output.append(' ')
-        else:
-            # Punctuation and other symbols (Grade 1 does not contract, but includes punctuation)
-            # You should expand BRAILLE_PUNCTUATION in app.py if you want full support
-            braille_output.append(char) # Currently leaves unhandled symbols as is
+
+    for token in tokens:
+        if token.isspace():
+            braille_output.append(token)
+            continue
+            
+        if token.isdigit():
+            # Apply Numeric Indicator (⠼)
+            braille_output.append(BRAILLE_INDICATORS['NUM']) # This adds '⠼'
+            for digit in token:
+                braille_output.append(NUMBER_MAP.get(digit, digit))
+            continue
+            
+        if re.match(r'^[A-Za-z]+$', token):
+            # Handle words (letter-for-letter)
+            for char in token:
+                if 'a' <= char <= 'z':
+                    # Lowercase letters are directly mapped
+                    braille_output.append(BRAILLE_LETTERS.get(char))
+                elif 'A' <= char <= 'Z':
+                    # Capital letters require the Capital Letter Indicator (⠠)
+                    lower_char = char.lower()
+                    braille_code = BRAILLE_LETTERS.get(lower_char, '')
+                    if braille_code:
+                        braille_output.append(BRAILLE_INDICATORS['CAPS'] + braille_code)
+                    else:
+                        braille_output.append(char) # Fallback
+            continue
+
+        # Handle punctuation and other symbols
+        if re.match(r'^[^\w\s]+$', token):
+            # Process token character by character for punctuation
+            for char in token:
+                braille_output.append(PUNCTUATION_SIGNS.get(char, char))
+            continue
+
+        # If a token is mixed (e.g., 'a.b', which shouldn't happen with the regex)
+        # Fallback: append the token as is
+        braille_output.append(token)
 
     return "".join(braille_output)
 
+# (Keep the existing braille_to_text function)
 def braille_to_text(braille_input):
     # This is where the actual logic from python-braille-convert.py belongs
     return "Text conversion of: " + braille_input
@@ -161,7 +218,7 @@ def serve_static(path):
     # For any other path, return 404
     return "Not Found", 404
 
-
+                                                                                                                                                                            
 @app.route('/convert', methods=['POST'])
 def convert():
     """API endpoint to handle Braille conversion."""
