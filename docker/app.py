@@ -1,6 +1,6 @@
 # app.py
 
-from flask import Flask, request, jsonify, send_from_directory # ADDED send_from_directory
+from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import sys
 import os
@@ -99,6 +99,8 @@ STRONG_WORD_SIGNS = {
 # Placeholder functions to allow the code to execute (MUST be replaced by full logic)
 def text_to_braille(text_input, grade):
     # This is where the actual logic from python-braille-convert.py belongs
+    # The actual implementation of text_to_braille in python-braille-convert.py will still handle 
+    # the GRADE_2 enum, but the API will only request GRADE_1.
     return "Braille G2 conversion of: " + text_input if grade == BrailleGrade.GRADE_2 else "Braille G1 conversion of: " + text_input
 
 def braille_to_text(braille_input):
@@ -139,19 +141,20 @@ def serve_static(path):
 def convert():
     """API endpoint to handle Braille conversion."""
     data = request.get_json()
+    # Changed default conversion type to 'to_braille_g1'
     input_text = data.get('text', '')
-    conversion_type = data.get('conversion_type', 'to_braille_g2')
+    conversion_type = data.get('conversion_type', 'to_braille_g1')
     
     converted_text = ""
     try:
-        if conversion_type == "to_braille_g2":
-            converted_text = text_to_braille(input_text, grade=BrailleGrade.GRADE_2)
-        elif conversion_type == "to_braille_g1":
+        # Removed the 'to_braille_g2' case
+        if conversion_type == "to_braille_g1":
             converted_text = text_to_braille(input_text, grade=BrailleGrade.GRADE_1)
         elif conversion_type == "to_text":
             converted_text = braille_to_text(input_text)
         else:
-            return jsonify({"error": "Invalid conversion type."}), 400
+            # If the frontend somehow sends an invalid type (like the removed g2), return an error
+            return jsonify({"error": "Invalid conversion type. Only Grade 1 and Text conversion are supported."}), 400
 
         return jsonify({"result": converted_text})
 

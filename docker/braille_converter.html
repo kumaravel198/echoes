@@ -43,7 +43,6 @@
                         <label for="conversion-type" class="block text-gray-700 font-medium mb-2">Conversion Type</label>
                         <select id="conversion-type"
                             class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 ease-in-out text-gray-700">
-                            <option value="to_braille_g2">Text to Braille (Grade 2)</option>
                             <option value="to_braille_g1">Text to Braille (Grade 1)</option>
                             <option value="to_text">Braille to Text</option>
                         </select>
@@ -58,7 +57,7 @@
 
             <div class="space-y-6">
                 <div class="relative">
-                    <label for="braille-output" class="block text-gray-700 font-medium mb-2" id="output-label">Braille Output (Grade 2)</label>
+                    <label for="braille-output" class="block text-gray-700 font-medium mb-2" id="output-label">Braille Output (Grade 1)</label>
                     <div id="braille-output" class="braille-output-box w-full min-h-[14rem] p-4 bg-gray-50 border border-gray-300 rounded-lg shadow-inner overflow-y-auto cursor-text text-gray-800 braille-text" contenteditable="true">
                         The converted Braille text will appear here.
                     </div>
@@ -159,8 +158,8 @@
             // --- UI Updates on Conversion Type Change ---
             CONVERSION_TYPE_SELECT.addEventListener('change', () => {
                 const type = CONVERSION_TYPE_SELECT.value;
-                if (type === "to_braille_g2" || type === "to_braille_g1") {
-                    const grade = type === "to_braille_g2" ? "Grade 2" : "Grade 1";
+                if (type === "to_braille_g1") { // Simplified logic
+                    const grade = "Grade 1";
                     INPUT_LABEL.textContent = "Enter Text";
                     OUTPUT_LABEL.textContent = `Braille Output (${grade})`;
                     TEXT_INPUT.placeholder = "Type or paste your English text here...";
@@ -198,6 +197,14 @@
                     document.body.removeChild(tempTextArea);
                 }
             });
+            
+            // Set initial state correctly since Grade 2 is removed
+            document.addEventListener('DOMContentLoaded', () => {
+                // Manually trigger the change event to set initial labels for Grade 1
+                CONVERSION_TYPE_SELECT.value = 'to_braille_g1';
+                CONVERSION_TYPE_SELECT.dispatchEvent(new Event('change'));
+            });
+            
         })();
     </script>
 </body>
