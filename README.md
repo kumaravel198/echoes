@@ -27,15 +27,15 @@ The script operates in two main modes: `text_to_braille` and `braille_to_text`.
 
 ---
 
-## Docker Container Usage (Inprogress, does not work correctly)
+## Docker Container Usage (Inprogress, does not work correctly.)
 
 _Note: I'm creating an offline, containerized environment for a website that includes a braille transcription feature. I'm focusing exclusively on Braille Grade 1 to ensure a high level of accuracy and reliability. Implementing Braille Grade 2's complex contractions and rules accurately is far too challenging for a straightforward script, and I have low confidence in its output. Therefore, I'm leaving the Grade 2 code disabled in the web UI. For those needing Grade 2 support, several excellent, specialized Git projects and libraries are available that handle it much better._  
 
-This project provides a simple command-line tool to convert text files to Braille and vice-versa. The tool is packaged in a lightweight container using Podman, allowing it to run consistently across different environments without requiring a local Python installation.
+This project provides a simple website to convert text files to Braille and vice-versa. The tool is packaged in a lightweight container using Podman, allowing it to run consistently across different environments without requiring a local Python installation.
 
 ### Prerequisites
 
-To use this project, you need to have **Podman** installed on your system. Podman is a daemonless container engine for developing, managing, and running OCI Containers.
+To use this project, you need to have **Podman** or **Docker** installed on your system. Podman is a daemonless container engine for developing, managing, and running OCI Containers.
 
 * [Install Podman](https://podman.io/getting-started/installation)
 
@@ -61,106 +61,24 @@ Navigate into the project directory and build the container image using the prov
 podman build -t braille-converter .
 ```
 #### 3. Run the Conversion
-You can now run the container to convert your files. The container needs access to your local files, so you must use a volume mount to share your current directory.
-
-Use the following command, replacing **`[file-name]`** and **`[direction]`** with your desired values.
+You can now run the container to convert your files. 
 
 ```bash
-podman run --rm --volume "$PWD":/app:z braille-converter [file-name] [to_braille|to_text]
+podman run -d -p 8080:80 --name braille-app braille-converter
 ```
+
+You can then access the website in your browser at `http://localhost:8080`.
+
 **`--rm`**: Removes the container after it exits.
-
-**`--volume "$PWD":/app:z:`** This is a crucial step. It mounts your current local directory (**`$PWD`**) to the **`/app`** directory inside the container, allowing the script to find your files. The **`:z`** option is for systems with SELinux (like Fedora) to ensure correct permissions.
-
-#### Example Usage
-To convert sample-text.txt to Braille:
-
-```bash
-podman run --rm --volume "$PWD":/app:z braille-converter sample-text.txt to_braille
-```
-The output will be printed directly to your terminal.
 
 ---
 
 ### Project Files
 + **`Dockerfile`**: Defines the container image, including the base image and the instructions for running the script.
 
-+ **`python-braille-convert.py`**: The Python script that performs the text-to-Braille and Braille-to-text conversion.
++ **`braille_converter.html`**: The Python script that performs the text-to-Braille and Braille-to-text conversion.
 
 + **`README.md`**: This file, providing instructions and project information.
-
----
-
-### Example output from podman for reference
-
-podman run --rm --volume "$PWD":/app:z braille-converter sample-text.txt to_braill
-
---- Original Content from 'sample-text.txt' ---
-Ontario's Human Rights Code, the first in Canada, was enacted in 1962. 
-
-The Code prohibits actions that discriminate against people based on a protected ground  in a protected social area.
-
-Protected grounds are:
-Age
-Ancestry, colour, race
-Citizenship
-Ethnic origin
-Place of origin
-Creed
-Disability
-Family status
-Marital status (including single status)
-Gender identity, gender expression
-Receipt of public assistance (in housing only)
-Record of offences (in employment only)
-Sex (including pregnancy and breastfeeding)
-Sexual orientation.
-
-Protected social areas are:
-Accommodation (housing)
-Contracts
-Employment
-Goods, services and facilities
-Membership in unions, trade or professional associations.
-
-For more information:
-Guide to your rights and responsibilities under the Human Rights Code
-Guidelines on developing human rights policies and procedures
-Human Rights Code cards
-
-------------------------------
---- Converted to Braille ---
-⠠⠕⠝⠞⠁⠗⠊⠕⠄⠎ ⠠⠓⠥⠍⠁⠝ ⠠⠗⠎ ⠠⠉⠕⠙⠑⠂ ⠮ ⠋⠗ ⠊⠝ ⠠⠉⠁⠝⠁⠙⠁⠂ ⠺⠁⠎ ⠑⠝⠁⠉⠞⠢ ⠊⠝ ⠼⠁⠊⠋⠃⠲ 
-
-⠠⠮ ⠠⠉⠕⠙⠑ ⠏⠗⠕⠓⠊⠃⠭⠎ ⠁⠉⠞⠊⠕⠝⠎ ⠞ ⠙⠊⠎⠉⠗⠊⠍⠔⠁⠞⠑ ⠁⠛⠎ ⠏ ⠃⠁⠎⠢ ⠕⠝ ⠁ ⠏⠗⠕⠞⠑⠉⠞⠢ ⠛⠗⠳⠝⠙  ⠊⠝ ⠁ ⠏⠗⠕⠞⠑⠉⠞⠢ ⠎⠕⠉⠊⠁⠇ ⠁⠗⠑⠁⠲
-
-⠠⠏⠗⠕⠞⠑⠉⠞⠢ ⠛⠗⠳⠝⠙⠎ ⠜⠒
-⠠⠁⠛⠑
-⠠⠁⠝⠉⠑⠎⠞⠗⠽⠂ ⠉⠕⠇⠳⠗⠂ ⠗⠁⠉⠑
-⠠⠉⠭⠊⠵⠑⠝⠩⠊⠏
-⠠⠑⠹⠝⠊⠉ ⠕⠗⠊⠛⠔
-⠠⠏⠇⠁⠉⠑ ⠷ ⠕⠗⠊⠛⠔
-⠠⠉⠗⠑⠢
-⠠⠙⠊⠎⠁⠃⠊⠇⠔⠞⠽
-⠠⠋⠁⠍⠊⠇⠽ ⠎⠞⠁⠞⠥⠎
-⠠⠍⠁⠗⠭⠁⠇ ⠎⠞⠁⠞⠥⠎ ⠣⠊⠝⠉⠇⠥⠙⠔ ⠎⠔⠛⠇⠑ ⠎⠞⠁⠞⠥⠎⠜
-⠠⠛⠑⠝⠙⠻ ⠊⠙⠑⠝⠞⠔⠞⠽⠂ ⠛⠑⠝⠙⠻ ⠑⠭⠏⠗⠑⠎⠎⠊⠕⠝
-⠠⠗⠑⠉⠑⠊⠏⠞ ⠷ ⠏⠥⠃⠇⠊⠉ ⠁⠎⠎⠊⠎⠞⠁⠝⠉⠑ ⠣⠊⠝ ⠓⠕⠥⠎⠔ ⠕⠝⠇⠽⠜
-⠠⠗⠑⠉⠕⠗⠙ ⠷ ⠕⠋⠋⠑⠝⠉⠑⠎ ⠣⠊⠝ ⠑⠍⠏⠇⠕⠽⠍⠑⠝⠞ ⠕⠝⠇⠽⠜
-⠠⠎⠑⠭ ⠣⠊⠝⠉⠇⠥⠙⠔ ⠏⠗⠑⠛⠝⠁⠝⠉⠽ ⠯ ⠃⠗⠑⠁⠎⠞⠋⠑⠢⠔⠜
-⠠⠎⠑⠭⠥⠁⠇ ⠕⠗⠊⠑⠝⠞⠁⠞⠊⠕⠝⠲
-
-⠠⠏⠗⠕⠞⠑⠉⠞⠢ ⠎⠕⠉⠊⠁⠇ ⠁⠗⠑⠁⠎ ⠜⠒
-⠠⠁⠉⠉⠕⠍⠍⠕⠙⠁⠞⠊⠕⠝ ⠣⠓⠕⠥⠎⠔⠜
-⠠⠐⠝⠞⠗⠁⠉⠞⠎
-⠠⠑⠍⠏⠇⠕⠽⠍⠑⠝⠞
-⠠⠛⠕⠕⠙⠎⠂ ⠎⠑⠗⠧⠊⠉⠑⠎ ⠯ ⠋⠁⠉⠊⠇⠭⠊⠑⠎
-⠠⠍⠑⠍⠐⠃⠗⠩⠊⠏ ⠊⠝ ⠥⠝⠊⠕⠝⠎⠂ ⠞⠗⠁⠙⠑ ⠕⠗ ⠏⠗⠕⠋⠑⠎⠎⠊⠕⠝⠁⠇ ⠁⠎⠎⠕⠉⠊⠁⠞⠊⠕⠝⠎⠲
-
-⠠⠫ ⠍ ⠊⠝⠋⠕⠗⠍⠁⠞⠊⠕⠝⠒
-⠠⠛⠥⠊⠙⠑ ⠞⠕ ⠽⠗ ⠗⠎ ⠯ ⠗⠑⠎⠏⠕⠝⠎⠊⠃⠊⠇⠭⠊⠑⠎ ⠥⠝ ⠮ ⠠⠓⠥⠍⠁⠝ ⠠⠗⠎ ⠠⠉⠕⠙⠑
-⠠⠛⠥⠊⠙⠑⠇⠔⠑⠎ ⠕⠝ ⠙⠑⠧⠑⠇⠕⠏⠔ ⠓⠥⠍⠁⠝ ⠗⠎ ⠏⠕⠇⠊⠉⠊⠑⠎ ⠯ ⠏⠗⠕⠉⠑⠙⠥⠗⠑⠎
-⠠⠓⠥⠍⠁⠝ ⠠⠗⠎ ⠠⠉⠕⠙⠑ ⠉⠁⠗⠙⠎
 
 ---
 
