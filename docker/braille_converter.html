@@ -16,17 +16,21 @@
             -ms-user-select: none;
             user-select: none;
         }
+        /* Style for Braille text output, using a mono font for consistent dots */
+        .braille-text {
+            font-family: monospace, "Braille", sans-serif;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 sm:p-6">
     <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-4xl border border-gray-200">
         <header class="text-center mb-6 sm:mb-8">
             <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 tracking-tight">Braille Converter</h1>
-            <p class="mt-2 text-gray-500 text-lg">Convert text to Braille or vice versa.</p>
+            <p class="mt-2 text-gray-500 text-lg">Convert text to Braille or vice versa using the Python logic.</p>
         </header>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            <!-- Left Panel: Input and Controls -->
             <div class="space-y-6">
                 <div class="relative">
                     <label for="text-input" class="block text-gray-700 font-medium mb-2" id="input-label">Enter Text</label>
@@ -36,10 +40,11 @@
 
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0 sm:space-x-4">
                     <div class="flex-grow">
-                        <label for="braille-grade" class="block text-gray-700 font-medium mb-2">Conversion Type</label>
+                        <label for="conversion-type" class="block text-gray-700 font-medium mb-2">Conversion Type</label>
                         <select id="conversion-type"
                             class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-300 ease-in-out text-gray-700">
-                            <option value="to_braille">Text to Braille</option>
+                            <option value="to_braille_g2">Text to Braille (Grade 2)</option>
+                            <option value="to_braille_g1">Text to Braille (Grade 1)</option>
                             <option value="to_text">Braille to Text</option>
                         </select>
                     </div>
@@ -51,11 +56,10 @@
                 </div>
             </div>
 
-            <!-- Right Panel: Output -->
             <div class="space-y-6">
                 <div class="relative">
-                    <label for="braille-output" class="block text-gray-700 font-medium mb-2" id="output-label">Braille Output</label>
-                    <div id="braille-output" class="braille-output-box w-full min-h-[14rem] p-4 bg-gray-50 border border-gray-300 rounded-lg shadow-inner overflow-y-auto cursor-text text-gray-800" contenteditable="true">
+                    <label for="braille-output" class="block text-gray-700 font-medium mb-2" id="output-label">Braille Output (Grade 2)</label>
+                    <div id="braille-output" class="braille-output-box w-full min-h-[14rem] p-4 bg-gray-50 border border-gray-300 rounded-lg shadow-inner overflow-y-auto cursor-text text-gray-800 braille-text" contenteditable="true">
                         The converted Braille text will appear here.
                     </div>
                 </div>
@@ -71,7 +75,6 @@
             </div>
         </div>
         
-        <!-- Custom Alert Modal -->
         <div id="alert-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 z-50 flex items-center justify-center p-4">
             <div class="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-sm text-center">
                 <h3 id="alert-title" class="text-xl font-bold text-gray-800 mb-4"></h3>
@@ -82,33 +85,9 @@
     </div>
 
     <script>
-        // Use a self-invoking async function to handle the async operations
         (async function() {
-            // Mapping for Braille conversion, based on the provided Python script.
-            const BRAILLE_LETTERS = {
-                'a': '⠁', 'b': '⠃', 'c': '⠉', 'd': '⠙', 'e': '⠑', 'f': '⠋',
-                'g': '⠛', 'h': '⠓', 'i': '⠊', 'j': '⠚', 'k': '⠅', 'l': '⠇',
-                'm': '⠍', 'n': '⠝', 'o': '⠕', 'p': '⠏', 'q': '⠟', 'r': '⠗',
-                's': '⠎', 't': '⠞', 'u': '⠥', 'v': '⠧', 'w': '⠺', 'x': '⠭',
-                'y': '⠽', 'z': '⠵',
-            };
-            const PUNCTUATION_SIGNS = {
-                ' ': ' ', '.': '⠲', ',': '⠂', '!': '⠖', '?': '⠦', ':': '⠒',
-                ';': '⠆', '-': '⠤', '"': '⠶', '“': '⠦', '”': '⠴', "'": '⠄',
-                '(': '⠐⠣', ')': '⠐⠜', '[': '⠨⠣', ']': '⠨⠜', '$': '⠐⠎', '*': '⠐⠔',
-            };
-            const BRAILLE_INDICATORS = {
-                'CAPS': '⠠', 'CAPS_WORD': '⠠⠠', 'NUM': '⠼',
-            };
-            const NUMBER_MAP = {
-                '1': '⠁', '2': '⠃', '3': '⠉', '4': '⠙', '5': '⠑', '6': '⠋',
-                '7': '⠛', '8': '⠓', '9': '⠊', '0': '⠚',
-            };
-            
-            // Grade 2 contractions (a simplified subset for demonstration)
-            const STRONG_WORD_SIGNS = {'and': '⠯', 'for': '⠫', 'the': '⠮', 'with': '⠾'};
-            const STRONG_GROUP_SIGNS = {'sh': '⠩', 'th': '⠹', 'wh': '⠱', 'ou': '⠳', 'ow': '⠪'};
-
+            // --- UI Elements ---
+            const API_ENDPOINT = 'http://localhost:5000/convert'; // Adjust this for production
             const TEXT_INPUT = document.getElementById('text-input');
             const BRAILLE_OUTPUT = document.getElementById('braille-output');
             const CONVERT_BUTTON = document.getElementById('convert-button');
@@ -121,7 +100,7 @@
             const INPUT_LABEL = document.getElementById('input-label');
             const OUTPUT_LABEL = document.getElementById('output-label');
 
-            // --- Custom Alert Function (as a replacement for `alert()`) ---
+            // --- Custom Alert Function ---
             function showCustomAlert(title, message) {
                 ALERT_TITLE.textContent = title;
                 ALERT_MESSAGE.textContent = message;
@@ -132,142 +111,80 @@
                 ALERT_MODAL.classList.add('hidden');
             });
 
-            // Reverse map for Braille to Text conversion
-            const REVERSE_BRAILLE_MAP = {};
-            // Populate reverse map from all existing maps
-            const allMaps = [BRAILLE_LETTERS, PUNCTUATION_SIGNS, NUMBER_MAP];
-            for (const map of allMaps) {
-                for (const key in map) {
-                    if (map.hasOwnProperty(key)) {
-                        REVERSE_BRAILLE_MAP[map[key]] = key;
-                    }
-                }
-            }
-
-            // --- Conversion Logic ---
-            function convertToBraille(text) {
-                if (!text.trim()) return "";
-                let braille = "";
-                const words = text.match(/[A-Za-z]+|\d+|[^\w\s]|\s+/g);
-                if (!words) return text;
-                
-                words.forEach(word => {
-                    let brailleWord = "";
-                    let isAllCaps = word.toUpperCase() === word && word.length > 1;
-                    let isInitialCaps = word.length > 0 && word[0] === word[0].toUpperCase() && !isAllCaps;
-                    
-                    if (isAllCaps) {
-                        brailleWord += BRAILLE_INDICATORS.CAPS_WORD;
-                    } else if (isInitialCaps) {
-                        brailleWord += BRAILLE_INDICATORS.CAPS;
-                    }
-
-                    let lowerCaseWord = word.toLowerCase();
-
-                    // Priority 1: Check for numbers
-                    if (!isNaN(parseInt(word)) && isFinite(word)) {
-                        brailleWord += BRAILLE_INDICATORS.NUM;
-                        for (let char of word) {
-                            brailleWord += NUMBER_MAP[char] || '';
-                        }
-                    } else {
-                        for (const char of lowerCaseWord) {
-                            brailleWord += BRAILLE_LETTERS[char] || PUNCTUATION_SIGNS[char] || char;
-                        }
-                    }
-                    braille += brailleWord;
-                });
-                return braille;
-            }
-
-            function convertToText(brailleText) {
-                if (!brailleText.trim()) return "";
-                let plainText = "";
-                let i = 0;
-                while (i < brailleText.length) {
-                    const char = brailleText[i];
-                    
-                    if (char === BRAILLE_INDICATORS.NUM) {
-                        // Handle numbers
-                        i++;
-                        while (i < brailleText.length && REVERSE_BRAILLE_MAP.hasOwnProperty(brailleText[i])) {
-                            plainText += REVERSE_BRAILLE_MAP[brailleText[i]];
-                            i++;
-                        }
-                    } else if (char === BRAILLE_INDICATORS.CAPS) {
-                        // Handle single capital letter
-                        i++;
-                        if (REVERSE_BRAILLE_MAP.hasOwnProperty(brailleText[i])) {
-                            plainText += REVERSE_BRAILLE_MAP[brailleText[i]].toUpperCase();
-                        } else {
-                            plainText += brailleText[i];
-                        }
-                        i++;
-                    } else if (brailleText.substring(i, i + 2) === BRAILLE_INDICATORS.CAPS_WORD) {
-                        // Handle all caps word
-                        i += 2;
-                        let word = "";
-                        while (i < brailleText.length && brailleText[i] !== ' ') {
-                             if (REVERSE_BRAILLE_MAP.hasOwnProperty(brailleText[i])) {
-                                word += REVERSE_BRAILLE_MAP[brailleText[i]];
-                            } else {
-                                word += brailleText[i];
-                            }
-                            i++;
-                        }
-                        plainText += word.toUpperCase();
-                    } else if (REVERSE_BRAILLE_MAP.hasOwnProperty(char)) {
-                        plainText += REVERSE_BRAILLE_MAP[char];
-                        i++;
-                    } else {
-                        plainText += char;
-                        i++;
-                    }
-                }
-                return plainText;
-            }
-
-            // --- UI and Event Listeners ---
-            CONVERT_BUTTON.addEventListener('click', () => {
+            // --- Conversion Logic: Calls Python Backend via Fetch API ---
+            CONVERT_BUTTON.addEventListener('click', async () => {
                 const inputText = TEXT_INPUT.value;
                 const conversionType = CONVERSION_TYPE_SELECT.value;
-                let convertedText;
-
-                if (conversionType === "to_braille") {
-                    convertedText = convertToBraille(inputText);
-                } else if (conversionType === "to_text") {
-                    convertedText = convertToText(inputText);
+                
+                if (!inputText.trim()) {
+                    showCustomAlert("Input Empty", "Please enter text or Braille to convert.");
+                    return;
                 }
 
-                BRAILLE_OUTPUT.textContent = convertedText;
+                try {
+                    CONVERT_BUTTON.textContent = 'Converting...';
+                    CONVERT_BUTTON.disabled = true;
+
+                    const response = await fetch(API_ENDPOINT, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            text: inputText,
+                            conversion_type: conversionType
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        BRAILLE_OUTPUT.textContent = data.result;
+                    } else {
+                        // Handle server-side errors (e.g., 500, or custom 400 from Flask)
+                        showCustomAlert("Conversion Error", data.error || "An unknown error occurred during conversion.");
+                        BRAILLE_OUTPUT.textContent = 'ERROR: See alert for details.';
+                    }
+                } catch (error) {
+                    // Handle network errors (e.g., Python server is not running)
+                    console.error('Network Error:', error);
+                    showCustomAlert("Connection Error", "Could not connect to the conversion server. Ensure the Python backend is running.");
+                    BRAILLE_OUTPUT.textContent = 'ERROR: Server connection failed.';
+                } finally {
+                    CONVERT_BUTTON.textContent = 'Convert';
+                    CONVERT_BUTTON.disabled = false;
+                }
             });
             
+            // --- UI Updates on Conversion Type Change ---
             CONVERSION_TYPE_SELECT.addEventListener('change', () => {
                 const type = CONVERSION_TYPE_SELECT.value;
-                if (type === "to_braille") {
+                if (type === "to_braille_g2" || type === "to_braille_g1") {
+                    const grade = type === "to_braille_g2" ? "Grade 2" : "Grade 1";
                     INPUT_LABEL.textContent = "Enter Text";
-                    OUTPUT_LABEL.textContent = "Braille Output";
-                    TEXT_INPUT.placeholder = "Type or paste your text here...";
+                    OUTPUT_LABEL.textContent = `Braille Output (${grade})`;
+                    TEXT_INPUT.placeholder = "Type or paste your English text here...";
                     BRAILLE_OUTPUT.textContent = "The converted Braille text will appear here.";
-                    BRAILLE_OUTPUT.classList.remove('braille-text');
-                } else {
+                    BRAILLE_OUTPUT.classList.add('braille-text');
+                } else { // to_text
                     INPUT_LABEL.textContent = "Enter Braille";
                     OUTPUT_LABEL.textContent = "Text Output";
-                    TEXT_INPUT.placeholder = "Paste your Braille Grade 1 text here...";
+                    TEXT_INPUT.placeholder = "Paste your Braille here...";
                     BRAILLE_OUTPUT.textContent = "The converted plain text will appear here.";
-                    BRAILLE_OUTPUT.classList.add('braille-text');
+                    BRAILLE_OUTPUT.classList.remove('braille-text');
                 }
                 TEXT_INPUT.value = "";
+                BRAILLE_OUTPUT.textContent = "";
             });
 
+            // --- Copy to Clipboard Logic ---
             COPY_BUTTON.addEventListener('click', () => {
                 const textToCopy = BRAILLE_OUTPUT.textContent;
-                if (textToCopy.trim() === "" || textToCopy.trim() === "The converted Braille text will appear here." || textToCopy.trim() === "The converted plain text will appear here.") {
-                    showCustomAlert("Nothing to Copy", "The output box is empty.");
+                if (!textToCopy.trim() || textToCopy.includes('ERROR')) {
+                    showCustomAlert("Nothing to Copy", "The output box is empty or contains an error message.");
                     return;
                 }
                 
-                // Use document.execCommand for better cross-browser support
                 const tempTextArea = document.createElement("textarea");
                 tempTextArea.value = textToCopy;
                 document.body.appendChild(tempTextArea);
