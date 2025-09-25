@@ -32,12 +32,16 @@ _Note: Replace the URL with the actual URL of your Git repository._
 Navigate into the project directory and build the container image using the provided **`Dockerfile`**. This command creates a new image tagged as **`braille-converter`**.
 
 ```bash
+docker build -t braille-converter .
+# OR
 podman build -t braille-converter .
 ```
 #### 3. Run the Conversion
-You can now run the container to convert your files. 
+Run the container, mapping the internal port 5000 (Flask server) to an external port (e.g., 8080) on your host machine.
 
 ```bash
+docker run -d -p 8080:5000 --name braille-app braille-converter
+# OR
 podman run -d -p 8080:5000 --name braille-app braille-converter
 ```
 
@@ -48,9 +52,11 @@ You can then access the website in your browser at `http://localhost:8080`.
 ---
 
 ### Project Files
-+ **`Dockerfile`**: Defines the container image, including the base image and the instructions for running the script.
++ **`Dockerfile`**: Defines the container image for running the Python Flask application.
 
-+ **`braille_converter.html`**: The Python script that performs the text-to-Braille and Braille-to-text conversion.
++ **`python-braille-convert.py`**: The core Python script containing the Braille conversion logic.
 
-+ **`README.md`**: This file, providing instructions and project information.
++ **`app.py`**: (Required, but user-created) The Flask application to expose the Python logic as an API.    
+
++ **`braille_converter.html`**:  The web interface (frontend) that uses JavaScript to call the Python backend API.
 
