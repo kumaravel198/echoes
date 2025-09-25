@@ -85,8 +85,13 @@ STRONG_WORD_SIGNS = {
 
 # 2. Strong Group Signs (can be anywhere in a word)
 STRONG_GROUP_SIGNS = {
+    # Strong Groupsigns (not covered by whole-word signs)
     'ch': '⠡', 'sh': '⠩', 'th': '⠹', 'wh': '⠱',
     'ou': '⠳', 'ow': '⠪',
+    
+    # Single-cell Strong Groupsigns
+    'st': '⠌',  # Dots 3-4
+    'ar': '⠜',  # Dots 3-4-5 (This is also the Lower Groupsign 'ar')
 }
 
 ## 3. Lower Contractions (can be used as words or parts of words, but can't be at start of a word)
@@ -108,43 +113,104 @@ LOWER_WORD_SIGNS = {
 }
 
 # 5. Shortform contractions (stand alone as a whole word)
-# Corrected: Added several missing shortforms for better coverage.
+# Corrected: Added missing shortforms and corrected Braille notation based on UEB Appendix 1.
 SHORTFORM_CONTRACTIONS = {
-    'about': '⠁⠃', 'above': '⠁⠃⠧', 'according': '⠁⠉⠉', 'after': '⠁⠋', 'again': '⠁⠛',
-    'almost': '⠁⠇⠍', 'already': '⠁⠇⠗', 'also': '⠁⠇⠎', 'although': '⠁⠇', 'altogether': '⠁⠇⠞',
-    'always': '⠁⠇⠺', 'because': '⠃⠑⠉', 'before': '⠃⠑⠋', 'behind': '⠃⠓', 'below': '⠃⠇',
+    'about': '⠁⠃', 'above': '⠁⠃⠧', 'according': '⠁⠉⠉', 
+    'across': '⠁⠉⠗', # Added missing
+    'after': '⠁⠋', 'again': '⠁⠛',
+    'against': '⠁⠛⠌', # Corrected/Added
+    'almost': '⠁⠇⠍', 'already': '⠁⠇⠗', 'also': '⠁⠇⠎', 'although': '⠁⠇⠹', # Corrected Braille
+    'altogether': '⠁⠇⠞', 'always': '⠁⠇⠺', 
+    'because': '⠃⠑⠉', 'before': '⠃⠑⠋', 'behind': '⠃⠓', 'below': '⠃⠇',
     'beneath': '⠃⠝', 'beside': '⠃⠎', 'between': '⠃⠞', 'beyond': '⠃⠽',
-    'braille': '⠃⠗⠇', 'character': '⠉⠓⠁', 'children': '⠉⠓⠣', 'could': '⠉⠙',
-    'first': '⠋⠗', 'friend': '⠋⠗', 'good': '⠛⠙', 'great': '⠛⠗', 'had': '⠓⠙',
-    'immediate': '⠔⠍', 'little': '⠇', 'made': '⠍⠙', 'many': '⠍⠁', 'must': '⠍⠎',
-    'necessary': '⠝⠑⠉', 'neither': '⠝⠑⠊', 'one': '⠕⠝', 'part': '⠏⠁', 'quick': '⠟⠅',
-    'right': '⠗⠣', 'said': '⠎⠙', 'some': '⠎⠍', 'spirit': '⠎⠏', 'such': '⠎⠥',
-    'their': '⠹⠗', 'these': '⠹⠎', 'through': '⠹⠗', 'time': '⠞⠊', 'under': '⠥⠝',
-    'upon': '⠥⠏', 'where': '⠱', 'which': '⠱', 'who': '⠱', 'whose': '⠱⠎',
-    'word': '⠺⠙', 'work': '⠺⠅', 'world': '⠺⠇', 'would': '⠺⠙', 'young': '⠽⠛',
-    'your': '⠽⠗', 'yourself': '⠽⠗⠎',
-    # Added missing shortforms
-    'receive': '⠗⠉⠑', 'deceive': '⠙⠑⠉', 'perceive': '⠏⠑⠗',
-    'against': '⠁⠛⠎', 'acknowledge': '⠁⠅', 'acquaintance': '⠁⠟',
-    'believe': '⠃⠇', 'declare': '⠙⠉', 'delightful': '⠙⠇',
-    'himself': '⠓⠊⠍', 'itself': '⠊⠞⠎', 'themselves': '⠹⠑⠍',
-    'together': '⠞⠛', 'tomorrow': '⠞⠍', 'tonight': '⠞⠝', 'today': '⠞⠙',
+    'blind': '⠃⠇', # Added missing
+    'braille': '⠃⠗⠇', 'character': '⠉⠓⠁', 
+    'children': '⠡⠝', # Corrected Braille
+    'conceive': '⠒⠉⠧', # Added missing
+    'conceiving': '⠒⠉⠧⠛', # Added missing
+    'could': '⠉⠙',
+    'deceive': '⠙⠉⠧', # Added missing
+    'deceiving': '⠙⠉⠧⠛', # Added missing
+    'declare': '⠙⠉⠇', # Added missing
+    'declaring': '⠙⠉⠇⠛', # Added missing
+    'either': '⠑⠊', # Added missing
+    'enough': '⠫', # Corrected Braille (Shortform for 'enough' is the same as the 'for' strong wordsign)
+    'first': '⠋⠌', # Corrected Braille
+    'friend': '⠋⠗', 'good': '⠛⠙', 
+    'great': '⠛⠗⠞', # Corrected Braille
+    'had': '⠓⠙',
+    'her': '⠓⠻', # Added missing
+    'herself': '⠓⠻⠋', # Corrected Braille
+    'him': '⠓⠍', # Added missing
+    'himself': '⠓⠍⠋', # Corrected Braille
+    'immediate': '⠊⠍⠍', 
+    'its': '⠭⠎', # Added missing
+    'itself': '⠭⠋', # Added missing
+    'letter': '⠇⠗', # Added missing
+    'little': '⠇⠇', # Corrected Braille
+    'made': '⠍⠙', 'many': '⠍⠁', 
+    'much': '⠍⠡', # Added missing
+    'must': '⠍⠌', # Corrected Braille
+    'myself': '⠍⠽⠋', # Corrected Braille
+    'necessary': '⠝⠑⠉', 'neither': '⠝⠑⠊', 
+    'one': '⠕⠝', # Included for clarity as a whole word shortform
+    'oneself': '⠐⠕⠋', # Added missing
+    'ourselves': '⠳⠗⠧⠎', # Corrected Braille
+    'paid': '⠏⠙', # Added missing
+    'part': '⠏⠁', 
+    'perceive': '⠏⠻⠉⠧', # Added missing
+    'perceiving': '⠏⠻⠉⠧⠛', # Added missing
+    'perhaps': '⠏⠻⠓', # Added missing
+    'quick': '⠟⠅', 
+    'receive': '⠗⠉⠧', # Added missing
+    'receiving': '⠗⠉⠧⠛', # Added missing
+    'rejoice': '⠗⠚⠉', # Added missing
+    'rejoicing': '⠗⠚⠉⠛', # Added missing
+    'right': '⠗⠣', 'said': '⠎⠙', 'some': '⠎⠍', 'spirit': '⠎⠏', 
+    'should': '⠩⠙', # Added missing
+    'such': '⠎⠉⠓', # Corrected Braille
+    'their': '⠹⠗', 'these': '⠹⠎', 'themselves': '⠹⠑⠍⠧⠎', # Corrected Braille
+    'through': '⠹⠗', 
+    'thyself': '⠹⠽⠋', # Added missing
+    'time': '⠞⠊', 'today': '⠞⠙', 'together': '⠞⠛', 'tomorrow': '⠞⠍', 'tonight': '⠞⠝',
+    'under': '⠥⠝', 'upon': '⠥⠏', 'where': '⠱', 'which': '⠱', 'who': '⠱', 'whose': '⠱⠎',
+    'word': '⠺⠙', 'work': '⠺⠅', 'world': '⠺⠇', 
+    'would': '⠺⠙', # Corrected Braille
+    'young': '⠽⠛',
+    'your': '⠽⠗', 
+    'yourself': '⠽⠗⠋', # Corrected Braille
+    'yourselves': '⠽⠗⠧⠎', # Corrected Braille
 }
 
-# 6. Final-letter contractions (must be at the end of a word)
-# Corrected: 'able' now has the correct contraction
+# 6. Final-letter contractions (All 17 terminal groupsigns)
 FINAL_LETTER_CONTRACTIONS = {
-    'tion': '⠞⠊⠕⠝', 'sion': '⠎⠊⠕⠝', 'ness': '⠝⠑⠎⠎', 'less': '⠇⠑⠎',
-    'ful': '⠋⠥⠇', 'ment': '⠍⠑⠝⠞', 'ity': '⠔⠞⠽', 'ance': '⠁⠝⠉⠑',
-    'ous': '⠕⠥⠎', 'ing': '⠔', 'ence': '⠢⠉⠑', 'able': '⠁⠃⠇',
-    # Added other common final contractions that were missing
-    'ed': '⠢', 'er': '⠻', 'en': '⠫', 'ow': '⠪', 'ble': '⠃⠇⠑',
+    # 5 Single-Cell Terminal Groupsigns
+    'ing': '⠔',  # Dots 3-4-6 (G sign)
+    'ed': '⠙',   # Dots 1-4-5 (D sign)
+    'er': '⠗',   # Dots 1-2-3-5 (R sign)
+    'en': '⠝',   # Dots 1-3-4-5 (N sign)
+    'ess': '⠎',  # Dots 2-3-4 (S sign)
+
+    # 12 Two-Cell Terminal Groupsigns (Dot 5-6 Prefix - ⠴)
+    'tion': '⠴⠝', # Dots 5-6, 1-3-4-5
+    'ness': '⠴⠎', # Dots 5-6, 2-3-4
+    'ment': '⠴⠞', # Dots 5-6, 2-3-4-5
+    'ity': '⠴⠽',  # Dots 5-6, 1-3-4-5-6
+    'ence': '⠴⠑', # Dots 5-6, 1-5
+    'ful': '⠴⠇',  # Dots 5-6, 1-2-3
+    'ong': '⠴⠛',  # Dots 5-6, 1-2-4-5
+
+    # 12 Two-Cell Terminal Groupsigns (Dot 4-6 Prefix - ⠨)
+    'sion': '⠨⠝', # Dots 4-6, 1-3-4-5
+    'less': '⠨⠎', # Dots 4-6, 2-3-4
+    'ance': '⠨⠑', # Dots 4-6, 1-5
+    'ount': '⠨⠞', # Dots 4-6, 2-3-4-5
+    'ound': '⠨⠙', # Dots 4-6, 1-4-5
 }
 
 # 7. Initial-letter contractions (must be at the beginning of a word)
-# Corrected: 'con' now has the correct single-cell contraction
 INITIAL_LETTER_CONTRACTIONS = {
-    'day': '⠙', 'ever': '⠑⠧', 'father': '⠋', 'here': '⠓', 'know': '⠅',
+    'day': '⠙', 'ever': '⠑', 'father': '⠋', 'here': '⠓', 'know': '⠅', # CORRECTED 'ever'
     'lord': '⠇', 'mother': '⠍', 'name': '⠝', 'one': '⠕', 'part': '⠏',
     'question': '⠟', 'right': '⠗', 'some': '⠎', 'time': '⠞',
     'under': '⠥', 'young': '⠽',
