@@ -26,9 +26,10 @@ PUNCTUATION_SIGNS = {
     ';': '⠆', # Semicolon (Corrected from non-standard)
     '-': '⠤', # Hyphen
     
-    # Quotation Marks (Directional - Double/Primary)
-    '"': '⠦',  # Opening Double Quote (Corrected from non-directional)
-    '”': '⠴',  # Closing Double Quote (Added for directional closure)
+    # Quotation Marks (Generic and Directional)
+    '"': '⠶',  # Generic Double Quote (Dots 2-3-5-6)
+    '“': '⠦',  # Opening Directional Quote
+    '”': '⠴',  # Closing Directional Quote
 
     # Apostrophe
     "'": '⠄', # Apostrophe/Closing Single Quote
@@ -45,6 +46,10 @@ PUNCTUATION_SIGNS = {
     ')': '⠐✜', # Closing Parenthesis (Corrected from one-cell non-standard)
     '[': '⠨⠣', # Opening Square Bracket (Added)
     ']': '⠨⠜', # Closing Square Bracket (Added)
+
+    # Currency and Symbols
+    '$': '⠐⠎', # Added Dollar Sign
+    '*': '⠐⠔', # Added Asterisk
 }
 
 # Key Braille indicators - EXPANDED UEB INDICATORS
@@ -99,7 +104,7 @@ STRONG_GROUP_SIGNS = {
 LOWER_CONTRACTIONS = {
     'be': '⠐⠃', 'in': '⠔', 'was': '⠐⠧', 'were': '⠐⠺', 'his': '⠐⠓', 'it': '⠭',
     'ea': '⠂',  # Added UEB Lower Groupsign for 'ea' (dots 2, same as comma)
-    'bb': '⠃⠃', 'cc': '⠉⠉', 'ff': '⠋⠋', 'gg': '⠛⠛',
+    'bb': '⠃⠃', 'cc': '⠉⠉', 'ff': '⠋⠋', 'gg': '⠛⠛', 'ar': '⠜',
     # Eliminated UEB contractions 'by' and 'to' and incorrect multi-cell entries have been removed.
 }
 
