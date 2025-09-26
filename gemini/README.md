@@ -14,7 +14,8 @@ You must have the following installed:
 
 ### Setting the GEMINI_API_KEY
 
-The backend and CLI script both require the `GEMINI_API_KEY` environment variable to be set.
+The backend and CLI script both require the `GEMINI_API_KEY` environment variable to be set. The API key is stored as enviroment variable for security.
+More information can be found at https://ai.google.dev/gemini-api/docs/api-key
 
 **Linux/macOS (For current session):**
 ```bash
