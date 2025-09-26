@@ -31,42 +31,45 @@
             <p class="text-gray-500 mt-2">Interact with Google's Gemini models via the Flask backend.</p>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
-            <div class="space-y-6">
-                <div class="relative">
-                    <label for="prompt-input" class="block text-gray-700 font-medium mb-2">Prompt</label>
-                    <textarea id="prompt-input" rows="8" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-900 shadow-inner" placeholder="Enter your prompt here..."></textarea>
-                </div>
-
-                <div>
-                    <label for="model-select" class="block text-gray-700 font-medium mb-2">Select Model</label>
-                    <select id="model-select" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-900 shadow-inner">
-                        <option value="gemini-2.5-flash">gemini-2.5-flash (Fast & Versatile)</option>
-                        <option value="gemini-2.5-pro">gemini-2.5-pro (Advanced Reasoning)</option>
-                        <option value="gemini-2.5-nano">gemini-2.5-nano (Very Small/Local)</option>
-                        <option value="text-bison-001">text-bison-001 (Legacy)</option>
-                    </select>
-                </div>
-
-                <button id="send-button" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-150 ease-in-out shadow-md disabled:bg-blue-400">
-                    Send Prompt
-                </button>
-            </div>
-
-            <div class="space-y-6">
-                <div class="relative">
-                    <label for="response-output" class="block text-gray-700 font-medium mb-2">API Response</label>
-                    <div id="response-output" class="response-output-box w-full min-h-[14rem] p-4 bg-gray-50 border border-gray-300 rounded-lg shadow-inner overflow-y-auto cursor-text text-gray-800 response-text">
-                        The Gemini API response will appear here.
-                    </div>
-                </div>
-
-                <button id="copy-button" class="w-full bg-green-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-600 transition duration-150 ease-in-out shadow-md disabled:bg-green-400">
-                    Copy Response
-                </button>
-            </div>
+        <div class="mb-6 sm:mb-8">
+            <label for="model-select" class="block text-gray-700 font-medium mb-2">Select Model</label>
+            <select id="model-select" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-900 shadow-inner">
+                <option value="gemini-2.5-flash">gemini-2.5-flash (Fast & Versatile)</option>
+                <option value="gemini-2.5-pro">gemini-2.5-pro (Advanced Reasoning)</option>
+                <option value="gemini-2.5-nano">gemini-2.5-nano (Very Small/Local)</option>
+                <option value="text-bison-001">text-bison-001 (Legacy)</option>
+            </select>
         </div>
         
+        <div class="space-y-6 sm:space-y-8">
+            <div>
+                <div class="space-y-4">
+                    <div class="relative">
+                        <label for="prompt-input" class="block text-gray-700 font-medium mb-2">Prompt</label>
+                        <textarea id="prompt-input" rows="8" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-900 shadow-inner" placeholder="Enter your prompt here..."></textarea>
+                    </div>
+
+                    <button id="send-button" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-150 ease-in-out shadow-md disabled:bg-blue-400">
+                        Send Prompt
+                    </button>
+                </div>
+            </div>
+
+            <div>
+                <div class="space-y-4">
+                    <div class="relative">
+                        <label for="response-output" class="block text-gray-700 font-medium mb-2">API Response</label>
+                        <div id="response-output" class="response-output-box w-full min-h-[14rem] p-4 bg-gray-50 border border-gray-300 rounded-lg shadow-inner overflow-y-auto cursor-text text-gray-800 response-text">
+                            The Gemini API response will appear here.
+                        </div>
+                    </div>
+
+                    <button id="copy-button" class="w-full bg-green-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-600 transition duration-150 ease-in-out shadow-md disabled:bg-green-400">
+                        Copy Response
+                    </button>
+                </div>
+            </div>
+        </div>
         <div id="custom-alert-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center p-4 z-50">
             <div class="bg-white rounded-lg shadow-xl max-w-sm w-full p-6">
                 <h3 id="alert-title" class="text-xl font-bold mb-3 text-gray-900">Alert Title</h3>
