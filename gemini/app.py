@@ -42,16 +42,11 @@ def gemini_call():
     model_name = data.get('model', 'gemini-2.5-flash')
     
     if not prompt:
-        return jsonify({"error": "Prompt cannot be empty."}), 400
+        return jsonify({"error": "No prompt provided."}), 400
 
     if GEMINI_CLIENT is None:
-        # Returns a 500 status if the client object itself is missing.
-        return jsonify({
-            "error": "Internal Server Error: Gemini client failed to initialize at startup."
-        }), 500
-    
-    if not os.getenv("GEMINI_API_KEY"):
-        # Returns a 500 status if the API key is missing (even if the client initialized).
+        # Client will be None if the environment variable wasn't set on startup.
+        # This check lets us know the status if the API key is missing (even if the client initialized).
         return jsonify({
             "error": "GEMINI_API_KEY environment variable is not set on the server."
         }), 500
@@ -71,6 +66,7 @@ def gemini_call():
         # --- MODIFICATION START: Separate response text and duration ---
         response_text = response.text
         
+        # The frontend now expects the response under the key "result"
         return jsonify({
             "result": response_text,
             "duration": f"{duration:.2f}"

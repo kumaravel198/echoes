@@ -27,211 +27,179 @@
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 sm:p-6">
     <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-4xl border border-gray-200">
         <header class="text-center mb-6 sm:mb-8">
-            <h1 class="text-3xl font-extrabold text-gray-900">Gemini API Tester</h1>
-            <p class="text-gray-500 mt-2">Interact with Google's Gemini models via the Flask backend.</p>
+            <h1 class="text-3xl font-bold text-gray-800">Gemini API Tester</h1>
+            <p class="text-gray-500">Flask Backend & Vanilla JS Frontend</p>
         </header>
 
-        <div class="mb-6 sm:mb-8">
-            <label for="model-select" class="block text-gray-700 font-medium mb-2">Select Model</label>
-            <select id="model-select" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-900 shadow-inner">
-                <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (Smallest, Fastest)</option>
-                <option value="gemini-2.5-flash">gemini-2.5-flash (Fast & Versatile)</option>
-                <option value="gemini-2.5-pro">gemini-2.5-pro (Advanced Reasoning)</option>
-            </select>
-        </div>
-        
-        <div class="space-y-6 sm:space-y-8">
-            <div>
-                <div class="space-y-4">
-                    <div class="relative">
-                        <label for="prompt-input" class="block text-gray-700 font-medium mb-2">Prompt</label>
-                        <textarea id="prompt-input" rows="8" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-900 shadow-inner" placeholder="Enter your prompt here..."></textarea>
-                    </div>
-
-                    <div class="flex items-center space-x-4">
-                        <button id="send-button" class="flex-grow bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-150 ease-in-out shadow-md disabled:bg-blue-400">
-                            Send Prompt
-                        </button>
-                        <div id="response-timer" class="text-lg font-semibold text-gray-700 w-1/4 text-right truncate">
-                            </div>
-                    </div>
-                    </div>
-            </div>
-
-            <div>
-                <div class="space-y-4">
-                    <div class="relative">
-                        <label for="response-output" class="block text-gray-700 font-medium mb-2">API Response</label>
-                        <div id="response-output" class="response-output-box w-full min-h-[14rem] p-3 bg-gray-50 border border-gray-300 rounded-lg shadow-inner overflow-y-auto cursor-text text-gray-500 text-left response-text">
-                            The Gemini API response will appear here.
-                        </div>
-                    </div>
-
-                    <button id="copy-button" class="w-full bg-green-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-600 transition duration-150 ease-in-out shadow-md disabled:bg-green-400">
-                        Copy Response
-                    </button>
+        <div class="space-y-4 mb-6">
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                <div class="sm:w-1/3">
+                    <label for="model-select" class="block text-sm font-medium text-gray-700 mb-1">Select Model</label>
+                    <select id="model-select" class="w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                        <option value="gemini-2.5-flash">gemini-2.5-flash (Fast)</option>
+                        <option value="gemini-2.5-pro">gemini-2.5-pro (Best)</option>
+                        <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (Legacy)</option>
+                    </select>
+                </div>
+                <div class="sm:w-2/3">
+                    <label for="prompt-input" class="block text-sm font-medium text-gray-700 mb-1">Enter Prompt</label>
+                    <textarea id="prompt-input" rows="3" class="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500 resize-none" placeholder="Ask a question..."></textarea>
                 </div>
             </div>
+            <button id="submit-button" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50" disabled>
+                Send to Gemini API
+            </button>
         </div>
-        
-        <div id="custom-alert-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center p-4 z-50">
-            <div class="bg-white rounded-lg shadow-xl max-w-sm w-full p-6">
-                <h3 id="alert-title" class="text-xl font-bold mb-3 text-gray-900">Alert Title</h3>
-                <p id="alert-message" class="text-gray-600 mb-4">Alert message content.</p>
-                <button id="alert-close-button" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700">Close</button>
+
+        <div id="loader" class="text-center py-4 hidden">
+            <svg class="animate-spin h-5 w-5 text-blue-600 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <p class="mt-2 text-sm text-gray-500">Generating response...</p>
+        </div>
+
+        <div id="response-container" class="bg-gray-50 p-4 border border-gray-200 rounded-lg shadow-inner hidden">
+            <h2 class="text-lg font-semibold text-gray-800 mb-2 border-b pb-2 flex justify-between items-center">
+                Gemini Response
+                <span id="response-duration" class="text-sm font-normal text-gray-500"></span>
+            </h2>
+            <div id="response-text" class="response-text text-gray-700"></div>
+            <div class="flex justify-end mt-4">
+                <button id="copy-button" class="bg-gray-200 text-gray-700 text-sm py-1 px-3 rounded-lg shadow-sm hover:bg-gray-300 transition-colors hidden">
+                    Copy Response
+                </button>
+            </div>
+        </div>
+
+        <div id="error-message" class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative hidden mt-4" role="alert">
+            <strong class="font-bold">Error!</strong>
+            <span id="error-text" class="block sm:inline ml-1"></span>
+        </div>
+
+        <div id="custom-alert" class="fixed top-4 right-4 z-50 transition-transform duration-300 transform translate-x-full" role="alert">
+            <div id="alert-content" class="rounded-lg shadow-xl p-4 flex items-center space-x-2">
+                <span id="alert-title" class="font-bold"></span>
+                <span id="alert-message"></span>
             </div>
         </div>
     </div>
 
     <script>
-        (async function() {
-            const API_ENDPOINT = '/gemini_call'; 
-            
-            const PROMPT_INPUT = document.getElementById('prompt-input');
-            const MODEL_SELECT = document.getElementById('model-select');
-            const SEND_BUTTON = document.getElementById('send-button');
-            const RESPONSE_OUTPUT = document.getElementById('response-output');
-            const COPY_BUTTON = document.getElementById('copy-button');
-            const RESPONSE_TIMER = document.getElementById('response-timer');
-            
-            const ALERT_MODAL = document.getElementById('custom-alert-modal');
-            const ALERT_TITLE = document.getElementById('alert-title');
-            const ALERT_MESSAGE = document.getElementById('alert-message');
-            const ALERT_CLOSE_BUTTON = document.getElementById('alert-close-button');
-            
-            // Store the initial placeholder text and class
-            const INITIAL_RESPONSE_TEXT = RESPONSE_OUTPUT.textContent;
-            const INITIAL_TEXT_CLASS = 'text-gray-500';
-            const RESULT_TEXT_CLASS = 'text-gray-900';
-            
-            // Variable to hold the interval timer ID
-            let timerInterval;
+        (function() {
+            const promptInput = document.getElementById('prompt-input');
+            const modelSelect = document.getElementById('model-select');
+            const submitButton = document.getElementById('submit-button');
+            const loader = document.getElementById('loader');
+            const responseContainer = document.getElementById('response-container');
+            const responseTextElement = document.getElementById('response-text');
+            const durationElement = document.getElementById('response-duration');
+            const errorMessage = document.getElementById('error-message');
+            const errorTextElement = document.getElementById('error-text');
+            const copyButton = document.getElementById('copy-button');
+            const customAlert = document.getElementById('custom-alert');
+            const alertTitle = document.getElementById('alert-title');
+            const alertMessage = document.getElementById('alert-message');
+            const alertContent = document.getElementById('alert-content');
 
-            // --- Custom Alert Function ---
-            function showCustomAlert(title, message) {
-                ALERT_TITLE.textContent = title;
-                ALERT_MESSAGE.textContent = message;
-                ALERT_MODAL.classList.remove('hidden');
-                ALERT_MODAL.classList.add('flex');
-            }
+            // --- Utility Functions ---
 
-            ALERT_CLOSE_BUTTON.addEventListener('click', () => {
-                ALERT_MODAL.classList.add('hidden');
-                ALERT_MODAL.classList.remove('flex');
-            });
+            function showCustomAlert(title, message, type = 'success') {
+                alertTitle.textContent = title;
+                alertMessage.textContent = message;
 
-            // --- Timer Utility Functions ---
-
-            function startTimer() {
-                // Clear any existing timer
-                clearInterval(timerInterval);
-                let seconds = 0;
-                // Display the initial time
-                RESPONSE_TIMER.textContent = `Time: 0.0s`;
-
-                // Start the interval
-                timerInterval = setInterval(() => {
-                    seconds += 0.1;
-                    // Update the display every 100ms (to one decimal place)
-                    RESPONSE_TIMER.textContent = `Time: ${seconds.toFixed(1)}s`;
-                }, 100);
-            }
-
-            function stopTimer(finalDuration) {
-                // Stop the running interval timer
-                clearInterval(timerInterval); 
-                // Display the final, accurate duration received from the server
-                if (finalDuration !== undefined) {
-                    RESPONSE_TIMER.textContent = `Time: ${finalDuration}s`;
+                // Reset classes
+                alertContent.className = 'rounded-lg shadow-xl p-4 flex items-center space-x-2';
+                
+                if (type === 'success') {
+                    alertContent.classList.add('bg-green-100', 'text-green-700');
+                } else if (type === 'error') {
+                    alertContent.classList.add('bg-red-100', 'text-red-700');
                 } else {
-                    // This handles errors where a final duration isn't available
-                    RESPONSE_TIMER.textContent = ''; 
+                     alertContent.classList.add('bg-blue-100', 'text-blue-700');
                 }
+
+                // Show and then hide after a delay
+                customAlert.classList.remove('translate-x-full');
+                customAlert.classList.add('translate-x-0');
+
+                setTimeout(() => {
+                    customAlert.classList.remove('translate-x-0');
+                    customAlert.classList.add('translate-x-full');
+                }, 3000);
             }
-            
-            // --- API Call Logic: Calls Python Backend via Fetch API ---
-            SEND_BUTTON.addEventListener('click', async () => {
-                const prompt = PROMPT_INPUT.value.trim();
-                const model = MODEL_SELECT.value;
 
-                if (!prompt) {
-                    showCustomAlert("Input Error", "Please enter a prompt before sending.");
-                    return;
-                }
+            function clearResults() {
+                responseContainer.classList.add('hidden');
+                errorMessage.classList.add('hidden');
+                copyButton.classList.add('hidden');
+            }
 
-                SEND_BUTTON.textContent = 'Sending...';
-                SEND_BUTTON.disabled = true;
-                
-                // 1. Start the visual timer immediately
-                startTimer();
-                
-                // Set 'Awaiting response...' text and apply the RESULT_TEXT_CLASS
-                RESPONSE_OUTPUT.textContent = 'Awaiting response from Gemini...';
-                RESPONSE_OUTPUT.classList.remove(INITIAL_TEXT_CLASS);
-                RESPONSE_OUTPUT.classList.add(RESULT_TEXT_CLASS);
-                
-                let finalDuration; // Variable to store the duration from the server
+            function updateSubmitButtonState() {
+                submitButton.disabled = promptInput.value.trim() === '';
+            }
+
+            // --- Event Listeners and Main Logic ---
+
+            promptInput.addEventListener('input', updateSubmitButtonState);
+            updateSubmitButtonState(); // Initial check
+
+            submitButton.addEventListener('click', async () => {
+                const prompt = promptInput.value.trim();
+                if (!prompt) return;
+
+                clearResults();
+                loader.classList.remove('hidden');
+                submitButton.disabled = true;
+
+                const selectedModel = modelSelect.value;
 
                 try {
-                    const response = await fetch(API_ENDPOINT, {
+                    const response = await fetch('/gemini_call', {
                         method: 'POST',
                         headers: {
-                            'Content-Type': 'application/json'
+                            'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ prompt: prompt, model: model })
+                        body: JSON.stringify({
+                            prompt: prompt,
+                            model: selectedModel
+                        })
                     });
 
                     const data = await response.json();
 
-                    if (!response.ok) {
-                        // Handle server-side errors (4xx or 5xx)
-                        const errorMsg = data.error || `Server returned status ${response.status}`;
-                        showCustomAlert("API Error", errorMsg);
-                        RESPONSE_OUTPUT.textContent = `ERROR: ${errorMsg}`;
-                        RESPONSE_OUTPUT.classList.remove(INITIAL_TEXT_CLASS);
-                        RESPONSE_OUTPUT.classList.add(RESULT_TEXT_CLASS);
-                        
-                        finalDuration = undefined; // Indicate no valid duration to display
-                        return;
+                    // Hide the loader
+                    loader.classList.add('hidden');
+
+                    if (data.error) {
+                        errorTextElement.textContent = data.error;
+                        errorMessage.classList.remove('hidden');
+                    } else {
+                        // Set the response text and duration
+                        // FIX: Change data.text to data.result to match the Flask backend
+                        responseTextElement.textContent = data.result; 
+                        durationElement.textContent = `Response time: ${data.duration}s`;
+                        responseContainer.classList.remove('hidden');
+                        copyButton.classList.remove('hidden');
                     }
-                    
-                    // Success case: Capture the duration from the server
-                    finalDuration = data.duration; 
-                    
-                    // Display the successful result
-                    RESPONSE_OUTPUT.textContent = data.result;
-                    RESPONSE_OUTPUT.classList.remove(INITIAL_TEXT_CLASS);
-                    RESPONSE_OUTPUT.classList.add(RESULT_TEXT_CLASS);
 
                 } catch (error) {
-                    // Handle network errors (e.g., server not running or connection refused)
-                    console.error('Network Error:', error);
-                    showCustomAlert("Connection Error", "Could not connect to the backend server. Ensure the container is running and port 5000 is mapped correctly.");
-                    RESPONSE_OUTPUT.textContent = 'ERROR: Server connection failed.';
-                    RESPONSE_OUTPUT.classList.remove(INITIAL_TEXT_CLASS);
-                    RESPONSE_OUTPUT.classList.add(RESULT_TEXT_CLASS);
-
-                    finalDuration = undefined; // Indicate no valid duration to display
-
+                    // Handle network errors or JSON parsing errors
+                    loader.classList.add('hidden');
+                    errorTextElement.textContent = `Network error: ${error.message}. Check the server console.`;
+                    errorMessage.classList.remove('hidden');
+                    console.error('Fetch error:', error);
                 } finally {
-                    // 2. Stop the visual timer and update it with the accurate duration
-                    stopTimer(finalDuration); 
-                    
-                    SEND_BUTTON.textContent = 'Send Prompt';
-                    SEND_BUTTON.disabled = false;
+                    // Re-enable the button regardless of success or failure
+                    updateSubmitButtonState();
                 }
             });
-            
-            // --- Copy to Clipboard Logic ---
-            COPY_BUTTON.addEventListener('click', () => {
-                const textToCopy = RESPONSE_OUTPUT.textContent;
+
+            copyButton.addEventListener('click', () => {
+                const textToCopy = responseTextElement.textContent;
                 
-                if (!textToCopy.trim() || textToCopy === INITIAL_RESPONSE_TEXT || textToCopy.includes('Awaiting response')) {
-                    showCustomAlert("Nothing to Copy", "The output box is empty or contains an error/placeholder message.");
-                    return;
-                }
-                
-                if (navigator.clipboard && navigator.clipboard.writeText) {
+                if (navigator.clipboard) {
+                    // Use modern Clipboard API
                     navigator.clipboard.writeText(textToCopy).then(() => {
                         showCustomAlert("Success!", "Response copied to clipboard.");
                     }).catch(err => {
