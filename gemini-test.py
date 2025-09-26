@@ -9,16 +9,34 @@ import time
 DEFAULT_MODEL = "gemini-2.5-flash"
 MODEL_ARG_FLAG = "--model" # Flag to look for the model name
 
-# --- 1. API Key Check (Unchanged) ---
+# --- 1. API Key Check (Updated for OS) ---
 if not os.getenv("GEMINI_API_KEY"):
     print("Error: The GEMINI_API_KEY environment variable is not set.")
-    print("To set it for the current terminal session, run this command (replace YOUR_API_KEY):")
-    print("    export GEMINI_API_KEY=\"YOUR_API_KEY\"")
-    print("\nTo set it permanently (for new terminal sessions), add the following line to your ~/.bashrc file and then run 'source ~/.bashrc':")
-    print("    echo 'export GEMINI_API_KEY=\"YOUR_API_KEY\"' >> ~/.bashrc")
+    print("To set it for the current terminal session (variable will be lost on closing):")
+    
+    # Check if the OS is POSIX (Linux, macOS, etc.)
+    if os.name == 'posix':
+        print("    export GEMINI_API_KEY=\"YOUR_API_KEY\"")
+        print("\nTo set it permanently (for new terminal sessions) on Linux/macOS:")
+        print("    1. Run this command (replace YOUR_API_KEY):")
+        print("       echo 'export GEMINI_API_KEY=\"YOUR_API_KEY\"' >> ~/.bashrc")
+        print("    2. Then run: source ~/.bashrc")
+
+    # Check if the OS is NT (Windows)
+    elif os.name == 'nt':
+        print("    set GEMINI_API_KEY=\"YOUR_API_KEY\"")
+        print("\nTo set it permanently (for new terminal sessions) on Windows:")
+        print("    Run this command in Command Prompt or PowerShell (replace YOUR_API_KEY):")
+        print("    setx GEMINI_API_KEY \"YOUR_API_KEY\"")
+        print("    (Note: You must open a new terminal window for this to take effect.)")
+        
+    else:
+        # Generic fallback instruction for other systems
+        print("    Please consult your system documentation on how to set the GEMINI_API_KEY environment variable permanently.")
+
     sys.exit(1)
 
-# --- 2. Get Model and Contents from Command Line ---
+# --- 2. Get Model and Contents from Command Line (Unchanged) ---
 
 # Initialize variables
 model_name = DEFAULT_MODEL
@@ -52,7 +70,7 @@ if not prompt_content:
     print(f"Usage: python gemini-test.py {MODEL_ARG_FLAG} <MODEL_NAME> \"<YOUR_PROMPT_HERE>\"")
     sys.exit(1)
 
-# --- 3. Run Gemini Client with Timer ---
+# --- 3. Run Gemini Client with Timer (Unchanged) ---
 client = genai.Client()
 
 print(f"Sending request to '{model_name}' for: '{prompt_content[:50]}...'")
@@ -80,9 +98,3 @@ print(response.text)
 print("\n" + "=" * 30)
 print(f"Response received in: {duration:.2f} seconds.")
 print("=" * 30)
-
-# Examples
-# python gemini-test.py "How much caffeine is in a McDonalds medium black coffee"
-# python gemini-test.py --model gemini-2.5-pro "What is the difference between a diode and a transistor?"
-# python gemini-test.py --model gemini-2.5-flash "What is the difference between a diode and a transistor?"
-# python gemini-test.py --model gemini-2.5-flash-lite "What is the difference between a diode and a transistor?"
