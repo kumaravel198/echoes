@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini API Tester</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        /* Style for response text output */
+        .response-text {
+            white-space: pre-wrap; /* Preserve whitespace and handle wrapping */
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4 sm:p-6">
+    <div class="bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-4xl border border-gray-200">
+        <header class="text-center mb-6 sm:mb-8">
+            <h1 class="text-3xl font-extrabold text-gray-900">Gemini API Tester</h1>
+            <p class="text-gray-500 mt-2">Interact with Google's Gemini models via the Flask backend.</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            <div class="space-y-6">
+                <div class="relative">
+                    <label for="prompt-input" class="block text-gray-700 font-medium mb-2">Prompt</label>
+                    <textarea id="prompt-input" rows="8" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-900 shadow-inner" placeholder="Enter your prompt here..."></textarea>
+                </div>
+
+                <div>
+                    <label for="model-select" class="block text-gray-700 font-medium mb-2">Select Model</label>
+                    <select id="model-select" class="w-full p-3 bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-900 shadow-inner">
+                        <option value="gemini-2.5-flash">gemini-2.5-flash (Fast & Versatile)</option>
+                        <option value="gemini-2.5-pro">gemini-2.5-pro (Advanced Reasoning)</option>
+                        <option value="gemini-2.5-nano">gemini-2.5-nano (Very Small/Local)</option>
+                        <option value="text-bison-001">text-bison-001 (Legacy)</option>
+                    </select>
+                </div>
+
+                <button id="send-button" class="w-full bg-blue-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-blue-700 transition duration-150 ease-in-out shadow-md disabled:bg-blue-400">
+                    Send Prompt
+                </button>
+            </div>
+
+            <div class="space-y-6">
+                <div class="relative">
+                    <label for="response-output" class="block text-gray-700 font-medium mb-2">API Response</label>
+                    <div id="response-output" class="response-output-box w-full min-h-[14rem] p-4 bg-gray-50 border border-gray-300 rounded-lg shadow-inner overflow-y-auto cursor-text text-gray-800 response-text">
+                        The Gemini API response will appear here.
+                    </div>
+                </div>
+
+                <button id="copy-button" class="w-full bg-green-500 text-white font-semibold py-3 px-4 rounded-lg hover:bg-green-600 transition duration-150 ease-in-out shadow-md disabled:bg-green-400">
+                    Copy Response
+                </button>
+            </div>
+        </div>
+        
+        <div id="custom-alert-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-lg shadow-xl max-w-sm w-full p-6">
+                <h3 id="alert-title" class="text-xl font-bold mb-3 text-gray-900">Alert Title</h3>
+                <p id="alert-message" class="text-gray-600 mb-4">Alert message content.</p>
+                <button id="alert-close-button" class="w-full bg-blue-600 text-white font-semibold py-2 rounded-lg hover:bg-blue-700">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (async function() {
+            // **CORRECTION:** Use a relative path for the API endpoint.
+            // This is crucial for running correctly inside a container environment.
+            const API_ENDPOINT = '/gemini_call'; 
+            
+            const PROMPT_INPUT = document.getElementById('prompt-input');
+            const MODEL_SELECT = document.getElementById('model-select');
+            const SEND_BUTTON = document.getElementById('send-button');
+            const RESPONSE_OUTPUT = document.getElementById('response-output');
+            const COPY_BUTTON = document.getElementById('copy-button');
+            
+            const ALERT_MODAL = document.getElementById('custom-alert-modal');
+            const ALERT_TITLE = document.getElementById('alert-title');
+            const ALERT_MESSAGE = document.getElementById('alert-message');
+            const ALERT_CLOSE_BUTTON = document.getElementById('alert-close-button');
+
+            // --- Custom Alert Function ---
+            function showCustomAlert(title, message) {
+                ALERT_TITLE.textContent = title;
+                ALERT_MESSAGE.textContent = message;
+                ALERT_MODAL.classList.remove('hidden');
+                ALERT_MODAL.classList.add('flex');
+            }
+
+            ALERT_CLOSE_BUTTON.addEventListener('click', () => {
+                ALERT_MODAL.classList.add('hidden');
+                ALERT_MODAL.classList.remove('flex');
+            });
+
+            // --- API Call Logic: Calls Python Backend via Fetch API ---
+            SEND_BUTTON.addEventListener('click', async () => {
+                const prompt = PROMPT_INPUT.value.trim();
+                const model = MODEL_SELECT.value;
+
+                if (!prompt) {
+                    showCustomAlert("Input Error", "Please enter a prompt before sending.");
+                    return;
+                }
+
+                SEND_BUTTON.textContent = 'Sending...';
+                SEND_BUTTON.disabled = true;
+                RESPONSE_OUTPUT.textContent = 'Awaiting response from Gemini...';
+                
+                try {
+                    const response = await fetch(API_ENDPOINT, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ prompt: prompt, model: model })
+                    });
+
+                    const data = await response.json();
+
+                    if (!response.ok) {
+                        // Handle server-side errors (4xx or 5xx)
+                        const errorMsg = data.error || `Server returned status ${response.status}`;
+                        showCustomAlert("API Error", errorMsg);
+                        RESPONSE_OUTPUT.textContent = `ERROR: ${errorMsg}`;
+                        return;
+                    }
+                    
+                    // Display the successful result
+                    RESPONSE_OUTPUT.textContent = data.result;
+
+                } catch (error) {
+                    // Handle network errors (e.g., server not running or connection refused)
+                    console.error('Network Error:', error);
+                    showCustomAlert("Connection Error", "Could not connect to the backend server. Ensure the container is running and port 5000 is mapped correctly.");
+                    RESPONSE_OUTPUT.textContent = 'ERROR: Server connection failed.';
+                } finally {
+                    SEND_BUTTON.textContent = 'Send Prompt';
+                    SEND_BUTTON.disabled = false;
+                }
+            });
+            
+            // --- Copy to Clipboard Logic ---
+            COPY_BUTTON.addEventListener('click', () => {
+                const textToCopy = RESPONSE_OUTPUT.textContent;
+                
+                if (!textToCopy.trim() || textToCopy.startsWith('ERROR') || textToCopy.includes('Awaiting response')) {
+                    showCustomAlert("Nothing to Copy", "The output box is empty or contains an error/placeholder message.");
+                    return;
+                }
+                
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        showCustomAlert("Success!", "Response copied to clipboard.");
+                    }).catch(err => {
+                        console.error('Failed to copy text using clipboard API: ', err);
+                        // Fallback to old method if modern one fails
+                        fallbackCopyTextToClipboard(textToCopy);
+                    });
+                } else {
+                    fallbackCopyTextToClipboard(textToCopy);
+                }
+            });
+            
+            function fallbackCopyTextToClipboard(text) {
+                const tempTextArea = document.createElement("textarea");
+                tempTextArea.value = text;
+                // Avoid scrolling to bottom of page in Windows
+                tempTextArea.style.position = 'fixed';
+                tempTextArea.style.top = 0;
+                tempTextArea.style.left = 0;
+                document.body.appendChild(tempTextArea);
+                tempTextArea.focus();
+                tempTextArea.select();
+                try {
+                    document.execCommand('copy');
+                    showCustomAlert("Success!", "Response copied to clipboard (fallback).");
+                } catch (err) {
+                    showCustomAlert("Copy Failed", "Failed to copy text. Please try again.");
+                } finally {
+                    document.body.removeChild(tempTextArea);
+                }
+            }
+        })();
+    </script>
+</body>
+</html>
