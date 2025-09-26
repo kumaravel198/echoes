@@ -70,7 +70,7 @@ podman build -t gemini-frontend --build-arg GEMINI_API_KEY=$GEMINI_API_KEY .
 Run the image, mapping the container's internal port 5000 to an external port (e.g., 8080) on your host machine.
 
 ```bash
-podman run -d -p 8080:5000 --name gemini-app gemini-frontend
+podman run -d -p 8080:5000 --name gemini-app -e GEMINI_API_KEY=$GEMINI_API_KEY gemini-frontend
 # OR (for Docker)
 # docker run -d -p 8080:5000 --name gemini-app gemini-frontend
 ```
