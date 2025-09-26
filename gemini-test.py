@@ -81,6 +81,8 @@ print("\n" + "=" * 30)
 print(f"Response received in: {duration:.2f} seconds.")
 print("=" * 30)
 
-# Example
+# Examples
 # python gemini-test.py "How much caffeine is in a McDonalds medium black coffee"
 # python gemini-test.py --model gemini-2.5-pro "What is the difference between a diode and a transistor?"
+# python gemini-test.py --model gemini-2.5-flash "What is the difference between a diode and a transistor?"
+# python gemini-test.py --model gemini-2.5-flash-lite "What is the difference between a diode and a transistor?"
