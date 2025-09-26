@@ -28,30 +28,29 @@ if not os.getenv("GEMINI_API_KEY"):
         print("\nTo set it permanently (for new terminal sessions) on Windows:")
         print("    Run this command in Command Prompt or PowerShell (replace YOUR_API_KEY):")
         print("    setx GEMINI_API_KEY \"YOUR_API_KEY\"")
-        print("    (Note: You must open a new terminal window for this to take effect.)")
-        
+        print("    (Note: You must open a new terminal window for this to take effect)")
+    
     sys.exit(1)
 
 
-# --- 2. Argument Parsing (CRITICAL FIX HERE) ---
+# --- 2. Command Line Argument Parsing ---
 
-model_name = DEFAULT_MODEL
-i = 0 # Default starting index, will be overwritten if args exist
-
+# Check if model flag is present
 if MODEL_ARG_FLAG in sys.argv:
-    # Example: python gemini-test.py --model gemini-2.5-pro "Hello"
     try:
+        # Get the index of the flag
+        model_flag_index = sys.argv.index(MODEL_ARG_FLAG)
         # The model name should be the argument immediately following the flag
-        model_name = sys.argv[sys.argv.index(MODEL_ARG_FLAG) + 1]
-        print(f"Using specified model: {model_name}")
-        # Prompt content starts after the flag and the model name
-        i = sys.argv.index(MODEL_ARG_FLAG) + 2 
-    except IndexError:
-        print(f"Error: Missing model name or prompt after {MODEL_ARG_FLAG} flag.")
+        model_name = sys.argv[model_flag_index + 1]
+        # Set the starting index for the prompt content (after the model name)
+        i = model_flag_index + 2
+    except (ValueError, IndexError):
+        print(f"Error: Missing model name after {MODEL_ARG_FLAG} flag.")
         print(f"Usage: python gemini-test.py {MODEL_ARG_FLAG} <MODEL_NAME> \"<YOUR_PROMPT_HERE>\"")
+        print(f"Available models: {DEFAULT_MODEL}, gemini-2.5-pro, gemini-2.5-flash-lite")
         sys.exit(1)
 
-# **FIXED LOGIC**: Handles the case where only the prompt is present.
+# Check if only the prompt is present.
 elif len(sys.argv) >= 2:
     # Example: python gemini-test.py "Hello"
     model_name = DEFAULT_MODEL
@@ -61,6 +60,7 @@ else:
     print("Error: No prompt provided.")
     print(f"Usage: python gemini-test.py \"<YOUR_PROMPT_HERE>\"")
     print(f"Optional: python gemini-test.py {MODEL_ARG_FLAG} <MODEL_NAME> \"<YOUR_PROMPT_HERE>\"")
+    print(f"Available models: {DEFAULT_MODEL}, gemini-2.5-pro, gemini-2.5-flash-lite")
     sys.exit(1)
 
 # Collect all remaining arguments as the prompt content
@@ -70,12 +70,13 @@ if not prompt_content:
     print("Error: No prompt provided.")
     print(f"Usage: python gemini-test.py \"<YOUR_PROMPT_HERE>\"")
     print(f"Optional: python gemini-test.py {MODEL_ARG_FLAG} <MODEL_NAME> \"<YOUR_PROMPT_HERE>\"")
+    print(f"Available models: {DEFAULT_MODEL}, gemini-2.5-pro, gemini-2.5-flash-lite")
     sys.exit(1)
 
 # --- 3. Run Gemini Client with Timer (Unchanged) ---
 client = genai.Client()
 
-print(f"Sending request to '{model_name}' for: '{prompt_content[:50]}...'")
+print(f"Sending request to '{model_name}' for: '{prompt_content[:50]}...'\n")
 print("-" * 20)
 
 # Start the timer
@@ -84,7 +85,7 @@ start_time = time.time()
 # Make the API call
 response = client.models.generate_content(
     model=model_name, # Use the dynamic model_name
-    contents=prompt_content # Use the collected prompt content
+    contents=prompt_content
 )
 
 # Stop the timer
@@ -92,9 +93,9 @@ end_time = time.time()
 duration = end_time - start_time
 
 # --- 4. Print Results (Unchanged) ---
-print("--- Response Text ---")
 print(response.text)
 print("-" * 20)
-print(f"Model used: {model_name}")
-print(f"Response received in: {duration:.2f} seconds.")
-print("-" * 20)
+print(f"Model: {model_name}")
+print(f"Tokens Used: {response.usage_metadata.prompt_token_count} (In), {response.usage_metadata.candidates_token_count} (Out)")
+print(f"Total Tokens: {response.usage_metadata.total_token_count}")
+print(f"API Call Duration: {duration:.2f} seconds")
