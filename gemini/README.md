@@ -47,7 +47,7 @@ Provide the prompt as a quoted argument after the script name.
 python gemini-test.py "Explain the concept of containerization in one paragraph."
 ```
 
-Option 2: Specify a Model
+### Option 2: Specify a Model
 Use the --model flag followed by the model name, and then the prompt.
 
 ```bash
@@ -75,7 +75,7 @@ podman run -d -p 8080:5000 --name gemini-app -e GEMINI_API_KEY=$GEMINI_API_KEY g
 # docker run -d -p 8080:5000 --name gemini-app gemini-frontend
 ```
 
-## Step 3: Access the Application
+### Step 3: Access the Application
 Open your web browser and navigate to:
 
 http://localhost:8080
