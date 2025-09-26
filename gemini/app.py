@@ -44,7 +44,6 @@ def gemini_call():
     if not prompt:
         return jsonify({"error": "Prompt cannot be empty."}), 400
 
-    # IMPROVEMENT: Check if the client failed to initialize at startup
     if GEMINI_CLIENT is None:
         # Returns a 500 status if the client object itself is missing.
         return jsonify({
@@ -69,12 +68,14 @@ def gemini_call():
         end_time = time.time()
         duration = end_time - start_time
         
-        response_text = f"{response.text}\n\n"
-        response_text += "=" * 30 + "\n"
-        response_text += f"Response received in: {duration:.2f} seconds.\n"
-        response_text += "=" * 30
+        # --- MODIFICATION START: Separate response text and duration ---
+        response_text = response.text
         
-        return jsonify({"result": response_text})
+        return jsonify({
+            "result": response_text,
+            "duration": f"{duration:.2f}"
+        })
+        # --- MODIFICATION END ---
 
     except APIError as e:
         print(f"Gemini API Error: {e}", file=sys.stderr)
@@ -83,6 +84,12 @@ def gemini_call():
         print(f"Internal server error: {e}", file=sys.stderr)
         return jsonify({"error": f"An internal server error occurred: {e}"}), 500
 
+
 if __name__ == '__main__':
-    # Binds to 0.0.0.0 so it's accessible outside the container
+    # Ensure static_html directory exists for serving frontend
+    if not os.path.exists('static_html'):
+        os.makedirs('static_html')
+    # Run the application
+    # Note: Flask's default development server is not suitable for production.
+    # For containerization, it's run via gunicorn/waitress or similar in a production environment.
     app.run(debug=True, host='0.0.0.0', port=5000)
