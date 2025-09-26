@@ -21,41 +21,43 @@ PUNCTUATION_SIGNS = {
     '\'': '⠄', # Apostrophe/Nondirectional Single Quote
 
     # Quotes
-    '\"': '⠶',  # Generic Double Quote
+    '\"': '⠶',   # Generic Double Quote
     
     # Grouping Punctuation
-    '(': '⠐⠣', # Opening Parenthesis (Round Bracket)
-    ')': '⠐⠜', # Closing Parenthesis (Round Bracket)
-    '[': '⠨⠣', # Opening Square Bracket
-    ']': '⠨⠜', # Closing Square Bracket
-    '{': '⠸⠣', # Opening Curly Bracket (Brace)
-    '}': '⠸⠜', # Closing Curly Bracket (Brace)
-    '<': '⠈⠣', # Opening Angle Bracket
-    '>': '⠈⠜', # Closing Angle Bracket
-    '〃': '⠐⠂', # Ditto Mark
+    '(': '⠐⠣',   # Opening Parenthesis (Round Bracket)
+    ')': '⠐⠜',   # Closing Parenthesis (Round Bracket)
+    '[': '⠨⠣',   # Opening Square Bracket
+    ']': '⠨⠜',   # Closing Square Bracket
+    '{': '⠸⠣',   # Opening Curly Bracket (Brace)
+    '}': '⠸⠜',   # Closing Curly Bracket (Brace)
+    '<': '⠈⠣',   # Opening Angle Bracket
+    '>': '⠈⠜',   # Closing Angle Bracket
+    '〃': '⠐⠂',  # Ditto Mark
 
     # Other Marks
     '...': '⠲⠲⠲', # Ellipsis
-    '—': '⠤⠤', # Em Dash (Long Dash)
-    '/': '⠸⠌', # Solidus/Forward Slash
+    '—': '⠤⠤',    # Em Dash (Long Dash)
+    '/': '⠸⠌',    # Solidus/Forward Slash
 
     # Signs of Operation
-    '+': '⠖', # Plus Sign (Same cell as !)
-    '=': '⠶', # Equals Sign (Same cell as ")
+    '+': '⠖',    # Plus Sign (Same cell as !)
+    '=': '⠶',    # Equals Sign (Same cell as ")
     
     # Currency and Special Symbols
-    '*': '⠐⠔', # Asterisk
-    '@': '⠐⠁', # Commercial At Sign
-    '$': '⠐⠎', # Dollar Sign
-
-    # PREVIOUS ADDITIONS
+    '*': '⠐⠔',   # Asterisk
+    '@': '⠐⠁',   # Commercial At Sign
+    '$': '⠐⠎',   # Dollar Sign
     '^': '⠐⠋',   # Caret / Circumflex Accent (Dots 5, 1-2-4)
-    '|': '⠹',   # Vertical Bar / Pipe (Dots 4-5-6, 1-2-3-6)
-    '_': '⠠⠤', # Underscore (Dot 6, Hyphen)
-
-    # NEW ESSENTIAL ADDITIONS
+    '|': '⠹',    # Vertical Bar / Pipe (Dots 4-5-6, 1-2-3-6)
+    '_': '⠠⠤',   # Underscore (Dot 6, Hyphen)
     '%': '⠨⠴',   # Percent Sign (Dots 4-6, 3-5-6)
     '°': '⠘⠚',   # Degree Sign (Dots 4-5, 2-4-5)
+    '#': '⠸⠹',   # Number Sign (Crosshatch)
+    '&': '⠈⠯',   # Ampersand (as a print symbol, distinct from the 'and' word sign)
+    '§': '⠘⠎',   # Section Mark
+    '©': '⠘⠉',   # Copyright Sign
+    '®': '⠘⠗',   # Registered Sign
+    '¶': '⠘⠏',   # Paragraph Sign
 }
 
 # 5. Composition Signs (Indicators)
