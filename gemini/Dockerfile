@@ -8,12 +8,13 @@ FROM python:3.9-slim AS build
 WORKDIR /app
 
 # COPY requirements first to leverage Docker's layer caching
-COPY requirements.txt . 
-# Install dependencies
+COPY requirements.txt .
+# Install dependencies (will now include Pillow)
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy application files
+# Copy application files (app.py and gemini-test.py)
 COPY app.py .
+COPY gemini-test.py . 
 
 # Stage 2: Serve the front end and run the backend
 FROM python:3.9-slim
